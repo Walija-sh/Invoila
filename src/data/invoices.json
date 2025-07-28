@@ -1,0 +1,115 @@
+[
+  {
+    "id": "INV-2025-001",
+    "client": {
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    },
+    "invoice": {
+      "dueDate": "2025-08-15",
+      "status": "Unpaid"
+    },
+    "services": [
+      {
+        "name": "Web Design",
+        "quantity": 2,
+        "rate": 500
+      },
+      {
+        "name": "SEO Optimization",
+        "quantity": 1,
+        "rate": 300
+      },
+      {
+        "name": "Hosting Setup",
+        "quantity": 1,
+        "rate": 150
+      }
+    ],
+    "totals": {
+      "subtotal": 1450,
+      "currency": "$"
+    }
+  },
+  {
+    "id": "INV-2025-002",
+    "client": {
+      "name": "Sarah Smith",
+      "email": "sarah.smith@example.com"
+    },
+    "invoice": {
+      "dueDate": "2025-08-22",
+      "status": "Paid"
+    },
+    "services": [
+      {
+        "name": "Mobile App Development",
+        "quantity": 1,
+        "rate": 2000
+      },
+      {
+        "name": "UI/UX Design",
+        "quantity": 1,
+        "rate": 800
+      }
+    ],
+    "totals": {
+      "subtotal": 2800,
+      "currency": "$"
+    }
+  },
+  {
+    "id": "INV-2025-003",
+    "client": {
+      "name": "Michael Chen",
+      "email": "michael.chen@example.com"
+    },
+    "invoice": {
+      "dueDate": "2025-09-05",
+      "status": "Overdue"
+    },
+    "services": [
+      {
+        "name": "Backend API Integration",
+        "quantity": 3,
+        "rate": 400
+      },
+      {
+        "name": "Database Setup",
+        "quantity": 1,
+        "rate": 350
+      }
+    ],
+    "totals": {
+      "subtotal": 1550,
+      "currency": "$"
+    }
+  },
+  {
+    "id": "INV-2025-004",
+    "client": {
+      "name": "Ayesha Khan",
+      "email": "ayesha.khan@example.com"
+    },
+    "invoice": {
+      "dueDate": "2025-08-30",
+      "status": "Unpaid"
+    },
+    "services": [
+      {
+        "name": "Content Writing",
+        "quantity": 5,
+        "rate": 120
+      },
+      {
+        "name": "Social Media Management",
+        "quantity": 2,
+        "rate": 250
+      }
+    ],
+    "totals": {
+      "subtotal": 1100,
+      "currency": "$"
+    }
+  }
+]

@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+
+@theme {
+    /* Background & Base */
+  --color-white:#ffffff;
+  /* Accent & Headings */
+  --color-accent: #7b2cbf;      
+  --color-heading: #161a1d;       
+
+  /* Text Colors */
+  --color-h: #111827;           
+  --color-p: #4B5563;     
+
+  /* Status Colors */
+  --color-spaid: #10B981;   
+  --color-sdue: #EF4444;     
+  --color-sunpaid: #F59E0B;  
+
+  /* Other */
+  --color-border: #E0E0E0;         
+  --color-card-bg: #7b2cbf1d;        
+
+}
+
+
+
