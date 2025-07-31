@@ -11,7 +11,9 @@ const pageDetails = {
   "/payments": { title: "Payments", subtitle: "Track and record all your payments" },
   "/settings": { title: "Settings", subtitle: "Customize your preferences and account settings" },
   "/invoices/createInvoice": { title: "Create Invoice", subtitle: "Create a new invoice for your client" },
+  "/clients/createClient": { title: "Create Client", subtitle: "Add client details to start tracking their invoices." },
   "/invoices/*": { title: "Invoice Overview", subtitle: "See the client, services, and payment status" },
+  "/clients/*": { title: "Client Overview", subtitle: "See the client details and payment status" },
 };
 
 const NavBar = ({ setToggleSidebar }) => {

@@ -5,16 +5,16 @@ import { InvoilaContext } from '../context/InvoilaContext';
 import { ToastContainer,toast } from 'react-toastify';
 
 const CreateInvoice = () => {
+    const { addInvoice, saveDraft, currentUser,clients,updateClientStatsOnInvoiceCreate } = useContext(InvoilaContext);
   const [services, setServices] = useState([
     { name: 'Web Development', quantity: 1, rate: 0 },
   ]);
 
-  const [clientName, setClientName] = useState('');
-  const [clientEmail, setClientEmail] = useState('');
+  const [selectedClient,setSelectedClient]=useState(clients[0])
   const [dueDate, setDueDate] = useState('');
   const [status, setStatus] = useState('Unpaid');
 
-  const { addInvoice, saveDraft, currentUser } = useContext(InvoilaContext);
+
   const navigate = useNavigate();
 
   const handleServiceChange = (index, field, value) => {
@@ -36,19 +36,21 @@ const CreateInvoice = () => {
   const subtotal = services.reduce((acc, s) => acc + s.quantity * s.rate, 0);
 
   const handleSubmit = (isDraft = false) => {
-    if (!clientName || !clientEmail || !dueDate || services.length === 0) {
+    if (!selectedClient|| !dueDate || services.length === 0) {
       toast('Please fill in all required fields and add at least one service.');
       return;
     }
 
     const invoice = {
       client: {
-        name: clientName,
-        email: clientEmail,
+        name: selectedClient.name,
+        email: selectedClient.email,
+        id:selectedClient.id,
       },
       invoice: {
         dueDate,
         status,
+        issuedDate:new Date().toISOString().slice(0, 10)
       },
       services,
       totals: {
@@ -63,9 +65,12 @@ const CreateInvoice = () => {
     } else {
       addInvoice(invoice);
     }
+    updateClientStatsOnInvoiceCreate(invoice)
 
     navigate('/invoices');
   };
+
+
 
   return (
     <div className="bg-white p-6 max-w-4xl mx-auto shadow-md rounded-lg">
@@ -80,25 +85,30 @@ const CreateInvoice = () => {
           <h3 className="text-lg font-medium text-heading mb-3">Client Information</h3>
           <div className="mb-4">
             <label className="block text-sm text-p mb-1">Client Name</label>
-            <input
-              type="text"
-              value={clientName}
-              onChange={(e) => setClientName(e.target.value)}
+            <select
+              onChange={(e) => {
+                 const selected = clients.find(client => client.name === e.target.value);
+                setSelectedClient(selected);
+              }}
               required
               className="w-full p-2 border border-border rounded-md focus:outline-none"
-              placeholder="Enter client name"
-            />
+              placeholder="Select client name"
+            >
+              {clients.map((client,index)=>{
+                return (
+                  <option key={index} value={client.name}>{client.name}</option>
+                )
+              })}
+            </select>
+
           </div>
           <div>
             <label className="block text-sm text-p mb-1">Client Email</label>
-            <input
-              type="email"
-              value={clientEmail}
-              onChange={(e) => setClientEmail(e.target.value)}
-              required
+            <div
               className="w-full p-2 border border-border rounded-md focus:outline-none"
-              placeholder="client@example.com"
-            />
+            >
+              {selectedClient.email}
+            </div>
           </div>
         </div>
 

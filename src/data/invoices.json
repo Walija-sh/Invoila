@@ -2,6 +2,7 @@
   {
     "id": "INV-2025-001",
     "client": {
+      "id": "client-001",
       "name": "John Doe",
       "email": "john.doe@example.com"
     },
@@ -34,6 +35,7 @@
   {
     "id": "INV-2025-002",
     "client": {
+      "id": "client-002",
       "name": "Sarah Smith",
       "email": "sarah.smith@example.com"
     },
@@ -61,6 +63,7 @@
   {
     "id": "INV-2025-003",
     "client": {
+      "id": "client-003",
       "name": "Michael Chen",
       "email": "michael.chen@example.com"
     },
@@ -88,6 +91,7 @@
   {
     "id": "INV-2025-004",
     "client": {
+      "id": "client-004",
       "name": "Ayesha Khan",
       "email": "ayesha.khan@example.com"
     },

@@ -10,6 +10,8 @@ import Layout from './pages/Layout';
 import Dashboard from './pages/Dashboard';
 import CreateInvoice from './pages/CreateInvoice'
 import InvoiceDetail from './pages/InvoiceDetail';
+import CreateClient from './pages/CreateClient';
+import ClientDetail from './pages/ClientDetail';
 
 const App = () => {
   const [token, setToken] = useState(()=>{
@@ -43,6 +45,8 @@ const App = () => {
             <Route path="invoices/createInvoice" element={<CreateInvoice />} />
             <Route path="invoices" element={<Invoices />} ></Route>
             <Route path="clients" element={<Clients />} />
+             <Route path="clients/createClient" element={<CreateClient/>} />
+             <Route path="clients/:id" element={<ClientDetail/>} />
             <Route path="payments" element={<Payment />} />
             <Route path="settings" element={<Settings />} />
           </Route>

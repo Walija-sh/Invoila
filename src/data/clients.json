@@ -1,0 +1,62 @@
+[
+  {
+    "id": "client-001",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1 555-123-4567",
+    "company": "Doe Web Solutions",
+    "address": "123 Main St, San Francisco, CA",
+    "notes": "Prefers PayPal. Needs monthly updates.",
+    "invoicesSent": 1,
+    "totalPaid": 0,
+    "totalUnpaid": 1450,
+    "status": "Outstanding",
+    "lastInvoiceDate": "2025-08-15",
+    "createdAt": "2025-06-10"
+  },
+  {
+    "id": "client-002",
+    "name": "Sarah Smith",
+    "email": "sarah.smith@example.com",
+    "phone": "+1 555-987-6543",
+    "company": "Smith Innovations",
+    "address": "78 Elm St, New York, NY",
+    "notes": "Long-term client. Pays upfront.",
+    "invoicesSent": 1,
+    "totalPaid": 2800,
+    "totalUnpaid": 0,
+    "status": "Active",
+    "lastInvoiceDate": "2025-08-22",
+    "createdAt": "2025-05-22"
+  },
+  {
+    "id": "client-003",
+    "name": "Michael Chen",
+    "email": "michael.chen@example.com",
+    "phone": "+1 555-222-1111",
+    "company": "Chen Tech",
+    "address": "45 Sunset Blvd, Los Angeles, CA",
+    "notes": "Follow up regularly. Prone to delays.",
+    "invoicesSent": 1,
+    "totalPaid": 0,
+    "totalUnpaid": 1550,
+    "status": "Overdue",
+    "lastInvoiceDate": "2025-09-05",
+    "createdAt": "2025-07-01"
+  },
+  {
+    "id": "client-004",
+    "name": "Ayesha Khan",
+    "email": "ayesha.khan@example.com",
+    "phone": "+92 300-1234567",
+    "company": "Khan Content Creatives",
+    "address": "12 Babar Block, Lahore, Pakistan",
+    "notes": "Prefers communication via WhatsApp.",
+    "invoicesSent": 1,
+    "totalPaid": 0,
+    "totalUnpaid": 1100,
+    "status": "Outstanding",
+    "lastInvoiceDate": "2025-08-30",
+    "createdAt": "2025-07-15"
+  }
+]
