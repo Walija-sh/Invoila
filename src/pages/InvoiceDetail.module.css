@@ -1,0 +1,182 @@
+/* InvoiceDetail.module.css */
+:root {
+  --color-white: #ffffff;
+
+  /* Accent & Headings */
+  --color-accent: #7b2cbf;
+  --color-heading: #161a1d;
+
+  /* Text Colors */
+  --color-h: #111827;
+  --color-p: #4B5563;
+
+  /* Status Colors */
+  --color-spaid: #10B981;
+  --color-sdue: #EF4444;
+  --color-sunpaid: #F59E0B;
+
+  /* Other */
+  --color-border: #E0E0E0;
+  --color-card-bg: #ededed;
+}
+
+.container {
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 1.5rem;
+  }
+}
+
+.invoiceBox {
+  background: var(--color-white);
+  padding: 1.5rem;
+  max-width: 64rem;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  color: var(--color-h);
+}
+
+.heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-h);
+  margin-bottom: 0.25rem;
+}
+
+.subheading {
+  font-size: 0.875rem;
+  color: var(--color-p);
+  margin-bottom: 1.5rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--color-heading);
+  margin-bottom: 0.75rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--color-p);
+  margin-bottom: 0.25rem;
+}
+
+.valueBox {
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  background: transparent;
+}
+
+.disabledInput {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  background: #f3f4f6;
+  color: #4b5563;
+  padding-right: 2.5rem;
+}
+
+.servicesTitle {
+  margin-top: 2rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--color-heading);
+  margin-bottom: 0.75rem;
+}
+
+.serviceGridHeader {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .serviceGridHeader {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    padding: 0 0.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-p);
+  }
+}
+
+.serviceItem {
+  display: grid;
+  gap: 0.75rem;
+  background: var(--color-card-bg);
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+}
+
+@media (min-width: 768px) {
+  .serviceItem {
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+  }
+}
+
+.totalSection {
+  margin-top: 2rem;
+  text-align: right;
+}
+
+.totalTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--color-accent);
+}
+
+.totalAmount {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-spaid);
+}
+
+.totalSubtext {
+  font-size: 0.875rem;
+  color: var(--color-p);
+}
+
+.buttonGroup {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.btnBack {
+  padding: 0.5rem 1rem;
+  background: var(--color-border);
+  color: var(--color-h);
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.btnDownload {
+  padding: 0.5rem 1rem;
+  background: var(--color-accent);
+  color: white;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}

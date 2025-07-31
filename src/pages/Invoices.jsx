@@ -39,7 +39,7 @@ const Invoices = () => {
             <button
               key={tab}
               onClick={() => handleStatusChange(tab)}
-              className={`px-4 py-1 rounded-full text-sm font-medium transition-all 
+              className={`px-4 py-1 rounded-full text-sm font-medium transition-all cursor-pointer
                 ${
                   activeStatus === tab
                     ? 'bg-accent text-white'
@@ -61,7 +61,7 @@ const Invoices = () => {
           />
           <Link
             to="/invoices/createInvoice"
-            className="bg-accent text-white px-4 py-2 rounded-md text-sm"
+            className="bg-accent text-white px-4 py-2 rounded-md text-sm whitespace-nowrap"
           >
             + New Invoice
           </Link>

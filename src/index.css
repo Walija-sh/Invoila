@@ -19,8 +19,12 @@
 
   /* Other */
   --color-border: #E0E0E0;         
-  --color-card-bg: #7b2cbf1d;        
+  --color-card-bg: #ededed;        
 
+}
+
+body{
+  /* background: #ededed; */
 }
 
 
