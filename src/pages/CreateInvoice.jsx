@@ -5,7 +5,7 @@ import { InvoilaContext } from '../context/InvoilaContext';
 import { ToastContainer,toast } from 'react-toastify';
 
 const CreateInvoice = () => {
-    const { addInvoice, saveDraft, currentUser,clients,updateClientStatsOnInvoiceCreate } = useContext(InvoilaContext);
+    const { addInvoice, saveDraft, currentUser,clients } = useContext(InvoilaContext);
   const [services, setServices] = useState([
     { name: 'Web Development', quantity: 1, rate: 0 },
   ]);
@@ -13,6 +13,10 @@ const CreateInvoice = () => {
   const [selectedClient,setSelectedClient]=useState(clients[0])
   const [dueDate, setDueDate] = useState('');
   const [status, setStatus] = useState('Unpaid');
+
+  const today = new Date().toISOString().slice(0, 10);
+const computedStatus = new Date(dueDate) < new Date(today) ? 'Overdue' : status;
+
 
 
   const navigate = useNavigate();
@@ -49,7 +53,7 @@ const CreateInvoice = () => {
       },
       invoice: {
         dueDate,
-        status,
+        status:computedStatus,
         issuedDate:new Date().toISOString().slice(0, 10)
       },
       services,
@@ -65,7 +69,6 @@ const CreateInvoice = () => {
     } else {
       addInvoice(invoice);
     }
-    updateClientStatsOnInvoiceCreate(invoice)
 
     navigate('/invoices');
   };

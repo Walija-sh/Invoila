@@ -15,8 +15,6 @@ export const InvoilaContext = createContext({
   saveDraft: () => {},
   clients:[],
   addNewClient:()=>{},
-  updateClientStatsOnInvoiceCreate:()=>{},
-  updateClientStatus:()=>{}
   
 });
 
@@ -60,25 +58,14 @@ const InvoilaContextProvider = (props) => {
       return [];
     }
   });
-  const [clients, setClients] = useState(() => {
-    const stored = localStorage.getItem("clients");
-    try {
-      return stored && stored !== "undefined" ? JSON.parse(stored) : defaultClients;
-    } catch {
-      return defaultClients;
-    }
-  });
 
-  const addNewClient=(client)=>{
-    const id = `client-${(clients.length + 1).toString().padStart(3, "0")}`;
-    const newClient={...client,id};
-    setClients((prev)=>[...prev,newClient])
-  }
 
   const addInvoice = (invoice) => {
     const id = `INV-2025-${(invoices.length + 1).toString().padStart(3, "0")}`;
     const newInvoice = { ...invoice, id };
     setInvoices((prev) => [...prev, newInvoice]);
+
+    updateClientStats(invoice,[...invoices,newInvoice])
   };
 
 const updateInvoiceStatus = (id, newStatus) => {
@@ -97,7 +84,7 @@ const updateInvoiceStatus = (id, newStatus) => {
 
     const updatedInvoice = updated.find((invoice) => invoice.id === id);
     if (updatedInvoice) {
-      updateClientStatus(updatedInvoice.clientId);
+     updateClientStats(updatedInvoice,[...invoices,updatedInvoice])
     }
 
     return updated;
@@ -109,56 +96,76 @@ const updateInvoiceStatus = (id, newStatus) => {
   const saveDraft = (invoice) => {
     setDrafts((prev) => [...prev, invoice]);
   };
-  const updateClientStatus = (clientId) => {
-   
-  const clientInvoices = invoices.filter(inv => inv.clientId === clientId);
 
-  if (clientInvoices.length === 0) return;
+  const [clients, setClients] = useState(() => {
+    const stored = localStorage.getItem("clients");
+    try {
+      return stored && stored !== "undefined" ? JSON.parse(stored) : defaultClients;
+    } catch {
+      return defaultClients;
+    }
+  });
+
+  const addNewClient=(client)=>{
+    const id = `client-${(clients.length + 1).toString().padStart(3, "0")}`;
+    const newClient={...client,id};
+    setClients((prev)=>[...prev,newClient])
+  }
+
+
+
+const updateClientStats = (invoice,updatedInvoices) => {
+  const clientId = invoice.client.id;
+  let totalPaid=0
+  let totalUnpaid=0
+  const clientInvoices=updatedInvoices.filter((inv)=>inv.client.id===clientId);
+  // console.log(clientInvoices);
+  
+  clientInvoices.map((inv)=>{
+    if(inv.invoice.status==="Paid"){
+      totalPaid+=inv.totals.subtotal;
+    }else{
+      totalUnpaid+=inv.totals.subtotal;
+    }
+  })
 
   let hasOverdue = false;
   let hasUnpaid = false;
 
   clientInvoices.forEach(invoice => {
-    if (invoice.status === "Overdue") {
+    const status = invoice.invoice.status;
+    if (status === "Overdue") {
       hasOverdue = true;
-    } else if (invoice.status === "Unpaid") {
+    } else if (status === "Unpaid") {
       hasUnpaid = true;
     }
   });
 
-  let newStatus = "Active";
-  if (hasOverdue) newStatus = "Overdue";
-  else if (hasUnpaid) newStatus = "Outstanding";
+  let newStatus = "Active"; 
+  if (hasOverdue) {
+    newStatus = "Overdue";
+  } else if (hasUnpaid) {
+    newStatus = "Outstanding";
+  }
 
-  const updatedClients = clients.map(client => {
-    if (client.id === clientId) {
-      return { ...client, status: newStatus };
-    }
-    return client;
-  });
-
-  setClients(updatedClients);
-};
-
-
-const updateClientStatsOnInvoiceCreate = (invoice) => {
-  const clientId = invoice.client.id;
+  
+  // console.log(totalPaid,'Paid',totalUnpaid,'Unpaid',clientInvoices.length,'total invoices');
 
   const updatedClients = clients.map((client) => {
     if (client.id === clientId) {
-      const isUnpaid = invoice.invoice.status === "Unpaid" || invoice.invoice.status === "Overdue";
       return {
         ...client,
-        invoicesSent: client.invoicesSent + 1,
-        totalUnpaid: isUnpaid ? client.totalUnpaid + invoice.totals.subtotal : client.totalUnpaid,
+        invoicesSent: clientInvoices.length,
+        totalPaid,
+        totalUnpaid,
         lastInvoiceDate: invoice.invoice.issuedDate,
+        status:newStatus
       };
     }
     return client;
   });
 
   setClients(updatedClients);
-  updateClientStatus(clientId); 
 };
 
 
@@ -200,8 +207,6 @@ const updateClientStatsOnInvoiceCreate = (invoice) => {
         saveDraft,
         clients,
         addNewClient,
-        updateClientStatus,
-        updateClientStatsOnInvoiceCreate
       }}
     >
       {props.children}
