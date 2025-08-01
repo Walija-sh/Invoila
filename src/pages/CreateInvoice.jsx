@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { FaCalendarAlt, FaTrash, FaPlus } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { InvoilaContext } from '../context/InvoilaContext';
 import { ToastContainer,toast } from 'react-toastify';
 
@@ -9,6 +9,7 @@ const CreateInvoice = () => {
   const [services, setServices] = useState([
     { name: 'Web Development', quantity: 1, rate: 0 },
   ]);
+
 
   const [selectedClient,setSelectedClient]=useState(clients[0])
   const [dueDate, setDueDate] = useState('');
@@ -84,7 +85,8 @@ const computedStatus = new Date(dueDate) < new Date(today) ? 'Overdue' : status;
       {/* Client and Invoice Info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Client Info */}
-        <div>
+        {clients.length>0?(
+          <div>
           <h3 className="text-lg font-medium text-heading mb-3">Client Information</h3>
           <div className="mb-4">
             <label className="block text-sm text-p mb-1">Client Name</label>
@@ -114,6 +116,26 @@ const computedStatus = new Date(dueDate) < new Date(today) ? 'Overdue' : status;
             </div>
           </div>
         </div>
+        
+        ):(
+          <div>
+          <h3 className="text-lg font-medium text-heading mb-3">Client Information</h3>
+          <div>
+            <label className="block text-sm text-p mb-1">No Client Found</label>
+            <div
+              className="w-full flex gap-4 items-center"
+            >
+             <p>Create a new client to get started</p>
+               <Link
+            to="/clients/createClient"
+            className="bg-accent text-white px-4 py-2 rounded-md text-sm whitespace-nowrap"
+          >
+            + New Client
+          </Link>
+            </div>
+          </div>
+        </div>
+        )}
 
         {/* Invoice Info */}
         <div>
@@ -222,14 +244,16 @@ const computedStatus = new Date(dueDate) < new Date(today) ? 'Overdue' : status;
           Cancel
         </button>
         <button
+        disabled={clients.length === 0}
           onClick={() => handleSubmit(true)}
-          className="px-4 py-2 bg-heading text-white rounded-md cursor-pointer"
+          className="px-4 py-2 bg-heading text-white rounded-md cursor-pointer disabled:cursor-not-allowed"
         >
           Save as Draft
         </button>
         <button
+        disabled={clients.length === 0}
           onClick={() => handleSubmit(false)}
-          className="px-4 py-2 bg-accent text-white rounded-md hover:opacity-90 cursor-pointer"
+          className="px-4 py-2 bg-accent text-white rounded-md hover:opacity-90 cursor-pointer disabled:cursor-not-allowed"
         >
           Create Invoice
         </button>
