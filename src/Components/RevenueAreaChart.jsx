@@ -1,6 +1,8 @@
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 const RevenueAreaChart = ({ data }) => {
+  console.log(data);
+  
     
   return (
     <div className="bg-cardbg p-4 rounded-lg shadow-md">
