@@ -10,6 +10,11 @@ const CreateInvoice = () => {
     { name: 'Web Development', quantity: 1, rate: 0 },
   ]);
 
+  const [availableServices, setAvailableServices] = useState([
+  "Web Design", "SEO Optimization", "Mobile App Development", "UI/UX Design", "Hosting Setup"
+]);
+
+
 
   const [selectedClient,setSelectedClient]=useState(clients[0])
   const [dueDate, setDueDate] = useState('');

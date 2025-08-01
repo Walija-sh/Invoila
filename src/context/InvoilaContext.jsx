@@ -214,9 +214,13 @@ const getRevenueByMonth = (invoices) => {
   const revenue = {};
 
   invoices.forEach((inv) => {
-    if (inv.invoice.status === 'Paid') {
+    if (
+      inv.invoice?.status === 'Paid' &&
+      inv.invoice?.issuedDate &&
+      !isNaN(new Date(inv.invoice.issuedDate))
+    ) {
       const issued = new Date(inv.invoice.issuedDate);
-      const key = format(issued, 'yyyy-MM'); // e.g., "2025-07"
+      const key = format(issued, 'yyyy-MM');
 
       if (!revenue[key]) revenue[key] = 0;
       revenue[key] += inv.totals?.subtotal || 0;
