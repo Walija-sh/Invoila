@@ -16,7 +16,9 @@ export const InvoilaContext = createContext({
   clients:[],
   addNewClient:()=>{},
   getDashboardStats:()=>{},
-  getRevenueByMonth:()=>{}
+  getRevenueByMonth:()=>{},
+  services:[],
+  addNewService:()=>{}
 });
 
 const InvoilaContextProvider = (props) => {
@@ -236,6 +238,22 @@ const getRevenueByMonth = (invoices) => {
   }));
 };
 
+  const [services, setServices] = useState(() => {
+    const stored = localStorage.getItem("services");
+    try {
+      return stored && stored !== "undefined" ? JSON.parse(stored) : [
+    "Web Design", "SEO Optimization", "Mobile App Development", "UI/UX Design", "Hosting Setup"
+  ];
+    } catch {
+      return [
+    "Web Design", "SEO Optimization", "Mobile App Development", "UI/UX Design", "Hosting Setup"
+  ];
+    }
+  });
+
+  const addNewService=(services)=>{
+    setServices(services)
+  }
 
 
 
@@ -261,6 +279,9 @@ const getRevenueByMonth = (invoices) => {
   useEffect(() => {
     localStorage.setItem("clients", JSON.stringify(clients));
   }, [clients]);
+  useEffect(() => {
+    localStorage.setItem("services", JSON.stringify(services));
+  }, [services]);
 
   return (
     <InvoilaContext.Provider
@@ -277,7 +298,9 @@ const getRevenueByMonth = (invoices) => {
         clients,
         addNewClient,
         getDashboardStats,
-        getRevenueByMonth
+        getRevenueByMonth,
+        services,
+        addNewService
       }}
     >
       {props.children}
