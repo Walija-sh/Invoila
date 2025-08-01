@@ -2,7 +2,6 @@ import { createContext, useEffect, useState } from "react";
 import defaultUsers from "../data/users.json";
 import defaultInvoices from "../data/invoices.json";
 import defaultClients from '../data/clients.json'
-import {format} from 'date-fns'
 
 export const InvoilaContext = createContext({
   users: [],
@@ -214,16 +213,20 @@ const getRevenueByMonth = (invoices) => {
   const revenue = {};
 
   invoices.forEach((inv) => {
-    if (
-      inv.invoice?.status === 'Paid' &&
-      inv.invoice?.issuedDate &&
-      !isNaN(new Date(inv.invoice.issuedDate))
-    ) {
-      const issued = new Date(inv.invoice.issuedDate);
-      const key = format(issued, 'yyyy-MM');
+    const issuedDate = inv?.invoice?.issuedDate;
 
-      if (!revenue[key]) revenue[key] = 0;
-      revenue[key] += inv.totals?.subtotal || 0;
+    if (inv?.invoice?.status === 'Paid' && issuedDate) {
+      const date = new Date(issuedDate);
+
+      if (!isNaN(date)) {
+        const yearMonth = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+
+        if (!revenue[yearMonth]) {
+          revenue[yearMonth] = 0;
+        }
+
+        revenue[yearMonth] += inv?.totals?.subtotal || 0;
+      }
     }
   });
 
@@ -232,6 +235,7 @@ const getRevenueByMonth = (invoices) => {
     revenue: value,
   }));
 };
+
 
 
 
