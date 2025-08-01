@@ -8,29 +8,15 @@
     },
     "invoice": {
       "dueDate": "2025-08-15",
-      "status": "Unpaid"
+      "status": "Unpaid",
+      "issuedDate": "2025-07-12"
     },
     "services": [
-      {
-        "name": "Web Design",
-        "quantity": 2,
-        "rate": 500
-      },
-      {
-        "name": "SEO Optimization",
-        "quantity": 1,
-        "rate": 300
-      },
-      {
-        "name": "Hosting Setup",
-        "quantity": 1,
-        "rate": 150
-      }
+      { "name": "Web Design", "quantity": 2, "rate": 500 },
+      { "name": "SEO Optimization", "quantity": 1, "rate": 300 },
+      { "name": "Hosting Setup", "quantity": 1, "rate": 150 }
     ],
-    "totals": {
-      "subtotal": 1450,
-      "currency": "$"
-    }
+    "totals": { "subtotal": 1450, "currency": "$" }
   },
   {
     "id": "INV-2025-002",
@@ -41,24 +27,14 @@
     },
     "invoice": {
       "dueDate": "2025-08-22",
-      "status": "Paid"
+      "status": "Paid",
+      "issuedDate": "2025-07-18"
     },
     "services": [
-      {
-        "name": "Mobile App Development",
-        "quantity": 1,
-        "rate": 2000
-      },
-      {
-        "name": "UI/UX Design",
-        "quantity": 1,
-        "rate": 800
-      }
+      { "name": "Mobile App Development", "quantity": 1, "rate": 2000 },
+      { "name": "UI/UX Design", "quantity": 1, "rate": 800 }
     ],
-    "totals": {
-      "subtotal": 2800,
-      "currency": "$"
-    }
+    "totals": { "subtotal": 2800, "currency": "$" }
   },
   {
     "id": "INV-2025-003",
@@ -68,25 +44,15 @@
       "email": "michael.chen@example.com"
     },
     "invoice": {
-      "dueDate": "2025-09-05",
-      "status": "Overdue"
+      "dueDate": "2025-07-05",
+      "status": "Overdue",
+      "issuedDate": "2025-07-02"
     },
     "services": [
-      {
-        "name": "Backend API Integration",
-        "quantity": 3,
-        "rate": 400
-      },
-      {
-        "name": "Database Setup",
-        "quantity": 1,
-        "rate": 350
-      }
+      { "name": "Backend API Integration", "quantity": 3, "rate": 400 },
+      { "name": "Database Setup", "quantity": 1, "rate": 350 }
     ],
-    "totals": {
-      "subtotal": 1550,
-      "currency": "$"
-    }
+    "totals": { "subtotal": 1550, "currency": "$" }
   },
   {
     "id": "INV-2025-004",
@@ -97,23 +63,101 @@
     },
     "invoice": {
       "dueDate": "2025-08-30",
-      "status": "Unpaid"
+      "status": "Unpaid",
+      "issuedDate": "2025-07-25"
     },
     "services": [
-      {
-        "name": "Content Writing",
-        "quantity": 5,
-        "rate": 120
-      },
-      {
-        "name": "Social Media Management",
-        "quantity": 2,
-        "rate": 250
-      }
+      { "name": "Content Writing", "quantity": 5, "rate": 120 },
+      { "name": "Social Media Management", "quantity": 2, "rate": 250 }
     ],
-    "totals": {
-      "subtotal": 1100,
-      "currency": "$"
-    }
+    "totals": { "subtotal": 1100, "currency": "$" }
+  },
+
+  {
+    "id": "INV-2025-005",
+    "client": {
+      "id": "client-001",
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    },
+    "invoice": {
+      "dueDate": "2025-06-10",
+      "status": "Paid",
+      "issuedDate": "2025-05-30"
+    },
+    "services": [
+      { "name": "Logo Design", "quantity": 1, "rate": 300 }
+    ],
+    "totals": { "subtotal": 300, "currency": "$" }
+  },
+  {
+    "id": "INV-2025-006",
+    "client": {
+      "id": "client-001",
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    },
+    "invoice": {
+      "dueDate": "2025-05-15",
+      "status": "Paid",
+      "issuedDate": "2025-04-28"
+    },
+    "services": [
+      { "name": "Maintenance", "quantity": 1, "rate": 150 }
+    ],
+    "totals": { "subtotal": 150, "currency": "$" }
+  },
+  {
+    "id": "INV-2025-007",
+    "client": {
+      "id": "client-001",
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    },
+    "invoice": {
+      "dueDate": "2025-03-20",
+      "status": "Paid",
+      "issuedDate": "2025-03-05"
+    },
+    "services": [
+      { "name": "Consultation", "quantity": 2, "rate": 100 }
+    ],
+    "totals": { "subtotal": 200, "currency": "$" }
+  },
+
+  {
+    "id": "INV-2025-008",
+    "client": {
+      "id": "client-002",
+      "name": "Sarah Smith",
+      "email": "sarah.smith@example.com"
+    },
+    "invoice": {
+      "dueDate": "2025-09-10",
+      "status": "Unpaid",
+      "issuedDate": "2025-08-01"
+    },
+    "services": [
+      { "name": "Bug Fixes", "quantity": 3, "rate": 120 }
+    ],
+    "totals": { "subtotal": 360, "currency": "$" }
+  },
+
+  {
+    "id": "INV-2025-009",
+    "client": {
+      "id": "client-004",
+      "name": "Ayesha Khan",
+      "email": "ayesha.khan@example.com"
+    },
+    "invoice": {
+      "dueDate": "2025-09-28",
+      "status": "Unpaid",
+      "issuedDate": "2025-08-25"
+    },
+    "services": [
+      { "name": "Campaign Strategy", "quantity": 1, "rate": 700 }
+    ],
+    "totals": { "subtotal": 700, "currency": "$" }
   }
 ]

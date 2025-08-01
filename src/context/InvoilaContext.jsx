@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import defaultUsers from "../data/users.json";
 import defaultInvoices from "../data/invoices.json";
 import defaultClients from '../data/clients.json'
+import {format} from 'date-fns'
 
 export const InvoilaContext = createContext({
   users: [],
@@ -15,7 +16,8 @@ export const InvoilaContext = createContext({
   saveDraft: () => {},
   clients:[],
   addNewClient:()=>{},
-  
+  getDashboardStats:()=>{},
+  getRevenueByMonth:()=>{}
 });
 
 const InvoilaContextProvider = (props) => {
@@ -169,6 +171,65 @@ const updateClientStats = (invoice,updatedInvoices) => {
 };
 
 
+const getDashboardStats = () => {
+  const today = new Date();
+  let totalInvoices = invoices.length;
+  let paid = 0, unpaid = 0, overdue = 0;
+  let totalRevenue = 0;
+  let upcomingDue = 0;
+
+  invoices.forEach(inv => {
+    const amount = inv.totals.subtotal;
+    const dueDate = new Date(inv.invoice.dueDate);
+
+    if (inv.invoice.status === "Paid") {
+      paid++;
+      totalRevenue += amount;
+    } else if (inv.invoice.status === "Unpaid") {
+      unpaid++;
+       const diffInDays = (dueDate - today) / (1000 * 60 * 60 * 24);
+
+      if (diffInDays >= 0 && diffInDays <= 7) {
+        upcomingDue += amount;
+      }
+    } else if (inv.invoice.status === "Overdue") {
+      overdue++;
+    }
+  });
+
+  const uniqueClientIds = new Set(invoices.map(inv => inv.client.id));
+
+  return {
+    totalInvoices,
+    paid,
+    unpaid,
+    overdue,
+    totalRevenue,
+    upcomingDue,
+    totalClients: uniqueClientIds.size,
+  };
+};
+
+const getRevenueByMonth = (invoices) => {
+  const revenue = {};
+
+  invoices.forEach((inv) => {
+    if (inv.invoice.status === 'Paid') {
+      const issued = new Date(inv.invoice.issuedDate);
+      const key = format(issued, 'yyyy-MM'); // e.g., "2025-07"
+
+      if (!revenue[key]) revenue[key] = 0;
+      revenue[key] += inv.totals?.subtotal || 0;
+    }
+  });
+
+  return Object.entries(revenue).map(([month, value]) => ({
+    month,
+    revenue: value,
+  }));
+};
+
+
 
   useEffect(() => {
     localStorage.setItem("users", JSON.stringify(users));
@@ -207,6 +268,8 @@ const updateClientStats = (invoice,updatedInvoices) => {
         saveDraft,
         clients,
         addNewClient,
+        getDashboardStats,
+        getRevenueByMonth
       }}
     >
       {props.children}

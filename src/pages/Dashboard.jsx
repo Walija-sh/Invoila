@@ -1,52 +1,41 @@
-import React, { useContext } from 'react';
-import SummaryCard from '../Components/SummaryCard';
+import React, { useContext, useEffect, useState } from 'react';
 import { InvoilaContext } from '../context/InvoilaContext';
+import MainMetrics from '../Components/MainMetrics';
+import RevenueAreaChart from '../Components/RevenueAreaChart'
 
 const Dashboard = () => {
-  const { invoices } = useContext(InvoilaContext);
+  const { getDashboardStats,invoices,clients,getRevenueByMonth } = useContext(InvoilaContext);
+  const [stats, setStats] = useState(null);
+  const [revenueStats,setRevenueStats]=useState(null)
 
-  const totalInvoices = invoices.length;
+  useEffect(() => {
+    const data = getDashboardStats();
+    setRevenueStats(getRevenueByMonth(invoices))
+    setStats(data);
+    
+  }, [invoices,clients]);
 
-  const paid = invoices.filter(inv => inv.invoice.status === 'Paid');
-  const unpaid = invoices.filter(inv => inv.invoice.status === 'Unpaid');
-  const overdue = invoices.filter(inv => inv.invoice.status === 'Overdue');
+  const format = (num) => '$' + (num || 0).toLocaleString();
 
-  const sumAmounts = (list) => 
-    list.reduce((sum, inv) => sum + (inv.totals?.subtotal || 0), 0);
-
-  const format = (num) => '$' + num.toLocaleString();
+  if (!stats) return null;
 
   return (
-    <div className='bg-white p-6  mx-auto  text-text'>
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <SummaryCard 
-          label="Total Invoices" 
-          value={totalInvoices} 
-          icon="📄" 
-        />
-        <SummaryCard 
-          label="Paid" 
-          value={paid.length} 
-          amount={format(sumAmounts(paid))} 
-          icon="✅" 
-          bg="spaid" 
-        />
-        <SummaryCard 
-          label="Unpaid" 
-          value={unpaid.length} 
-          amount={format(sumAmounts(unpaid))} 
-          icon="⚠️" 
-          bg="sunpaid" 
-        />
-        <SummaryCard 
-          label="Overdue" 
-          value={overdue.length} 
-          amount={format(sumAmounts(overdue))} 
-          icon="⛔" 
-          bg="sdue" 
-        />
+    <div className="bg-white text-text p-6 max-w-5xl mx-auto">
+      <div className="bg-card-bg rounded-xl shadow-md p-6">
+        <h2 className="text-2xl font-bold mb-4 text-h"> Main Stats</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 items-center justify-center">
+           <MainMetrics stats={stats} className='justify-self-center'/>
+        <ul className="grid gap-y-4 list-disc list-inside text-base leading-relaxed text-p md:text-xl">
+          
+          <li><strong>Total Revenue:</strong> {format(stats.totalRevenue)}</li>
+          <li><strong>Total Clients:</strong> {stats.totalClients}</li>
+          <li><strong>Upcoming Due Amount:</strong> {format(stats.upcomingDue)}</li>
+        </ul>
+        </div>
       </div>
+      {/*  */}
+      <RevenueAreaChart data={revenueStats}/>
+     
     </div>
   );
 };
