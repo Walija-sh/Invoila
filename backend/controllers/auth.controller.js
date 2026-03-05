@@ -15,7 +15,7 @@ if(!username || !email || !password){
 
 const existingUser = await User.findOne({ email });
 
-if(existingUser !== undefined){
+if(existingUser){
     return next(new AppError('User already exists',409))
 }
 
