@@ -55,7 +55,7 @@ const NavBar = ({ setToggleSidebar }) => {
       {/* Right: User Info */}
       <div className="flex items-center justify-end gap-3 grow-0 order-2 sm:order-3">
         {/* Profile photo / icon */}
-        {currentUser && (
+        {currentUser?.profilePhoto && (
           <img
             src={currentUser.profilePhoto || ""}
             alt="User"
