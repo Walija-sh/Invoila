@@ -69,7 +69,6 @@ if(!user){
 }
 
 const validPassword = await user.comparePassword(password.trim())
-
 if(!validPassword){
     return next(new AppError('Invalid credentials',401))
 }
@@ -119,8 +118,7 @@ const updatePassword = catchAsync(async (req, res, next) => {
   const isMatch = await user.comparePassword(oldPassword);
   if (!isMatch) return next(new AppError('Old password incorrect', 401));
 
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(newPassword, salt);
+    user.password = newPassword;
 
   await user.save();
 
