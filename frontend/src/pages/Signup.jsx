@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import API from '../utils/axios';
 import logo from '../assets/Logo.png'; 
 
-const Signup = ({ setToken }) => {
+const Signup = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -33,8 +33,6 @@ const Signup = ({ setToken }) => {
       // Save token in localStorage
       const token = res.data.data.token;
       localStorage.setItem('token', JSON.stringify(token));
-      setToken(token);
-
       toast.success('Account created successfully');
       navigate('/'); // redirect to dashboard or home
     } catch (err) {

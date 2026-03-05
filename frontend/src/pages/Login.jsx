@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import API from '../utils/axios';
 
-const Login = ({ setToken }) => {
+const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,12 +19,9 @@ const Login = ({ setToken }) => {
 setLoading(true)
     try {
       const res = await API.post('/api/auth/login', { email, password });
-      
       // Save token locally
       const token = res.data.data.token;
       localStorage.setItem('token', JSON.stringify(token));
-      setToken(token);
-
       toast.success('Login successful');
       navigate('/'); // redirect to dashboard
     } catch (err) {
