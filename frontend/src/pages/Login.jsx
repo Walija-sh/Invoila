@@ -3,9 +3,12 @@ import logo from '../assets/Logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import API from '../utils/axios';
+import { InvoilaContext } from '../context/InvoilaContext';
+import { useContext } from 'react';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setCurrentUser } = useContext(InvoilaContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -22,6 +25,7 @@ setLoading(true)
       // Save token locally
       const token = res.data.data.token;
       localStorage.setItem('token', JSON.stringify(token));
+      setCurrentUser(res.data.data);
       toast.success('Login successful');
       navigate('/'); // redirect to dashboard
     } catch (err) {

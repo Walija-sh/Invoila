@@ -3,9 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import API from '../utils/axios';
 import logo from '../assets/Logo.png'; 
+import { InvoilaContext } from '../context/InvoilaContext';
+import { useContext } from 'react';
 
 const Signup = () => {
   const navigate = useNavigate();
+    const { setCurrentUser } = useContext(InvoilaContext);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,6 +36,7 @@ const Signup = () => {
       // Save token in localStorage
       const token = res.data.data.token;
       localStorage.setItem('token', JSON.stringify(token));
+      setCurrentUser(res.data.data);
       toast.success('Account created successfully');
       navigate('/'); // redirect to dashboard or home
     } catch (err) {
