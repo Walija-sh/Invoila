@@ -22,7 +22,7 @@ const Sidebar = ({toggleSidebar,setToggleSidebar}) => {
   
 
   return (
-    <aside className={ ` absolute top-0 left-0 w-full sm:w-fit sm:static md:w-full max-w-64 h-screen bg-white border-r border-gray-200  flex flex-col p-5   ${toggleSidebar?'translate-x-0':'-translate-x-[200%]'} sm:translate-x-0 transition-all ease-in duration-150`}>
+    <aside className={ ` absolute top-0 left-0 w-full sm:w-fit sm:static md:w-full max-w-64 h-screen bg-white border-r border-gray-200  flex flex-col p-5   ${toggleSidebar?'translate-x-0':'-translate-x-[200%]'} sm:translate-x-0 transition-all ease-in duration-150 z-10000`}>
         <div onClick={() => setToggleSidebar(false)} className="flex items-center justify-end sm:hidden">
             <IoClose className="text-2xl  text-p hover:bg-gray-100 hover:text-heading cursor-pointer" />
         </div>
@@ -31,7 +31,7 @@ const Sidebar = ({toggleSidebar,setToggleSidebar}) => {
        <div className="flex  mb-4">
                  <img src={logo} alt="Logo" className="w-full max-w-[120px]" />
         </div>
-        <p className="text-sm text-p">Freelancer Dashboard</p>
+        <p className="text-sm text-p">Dashboard</p>
       </div>
       <div className={` hidden sm:flex sm:mb-4 md:hidden`}>
                  <img src={favicon} alt="Logo" className="w-full max-w-[50px]" />

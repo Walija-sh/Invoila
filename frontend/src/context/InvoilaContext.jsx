@@ -4,8 +4,6 @@ import defaultInvoices from "../data/invoices.json";
 import defaultClients from '../data/clients.json'
 
 export const InvoilaContext = createContext({
-  users: [],
-  addNewUser: () => {},
   currentUser: null,
   setCurrentUser: () => {},
   invoices: [],
@@ -22,27 +20,8 @@ export const InvoilaContext = createContext({
 });
 
 const InvoilaContextProvider = (props) => {
-  const [users, setUsers] = useState(() => {
-    const stored = localStorage.getItem("users");
-    try {
-      return stored && stored !== "undefined" ? JSON.parse(stored) : defaultUsers;
-    } catch {
-      return defaultUsers;
-    }
-  });
 
-  const addNewUser=(user)=>{
-    setUsers((prev)=>[...prev,user])
-  }
-
-  const [currentUser, setCurrentUser] = useState(() => {
-    const stored = localStorage.getItem("currentUser");
-    try {
-      return stored && stored !== "undefined" ? JSON.parse(stored) : null;
-    } catch {
-      return null;
-    }
-  });
+const [currentUser, setCurrentUser] = useState(null);
 
   const [invoices, setInvoices] = useState(() => {
     const stored = localStorage.getItem("invoices");
@@ -258,18 +237,6 @@ const getRevenueByMonth = (invoices) => {
 
 
   useEffect(() => {
-    localStorage.setItem("users", JSON.stringify(users));
-  }, [users]);
-
-  useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem("currentUser", JSON.stringify(currentUser));
-    } else {
-      localStorage.removeItem("currentUser");
-    }
-  }, [currentUser]);
-
-  useEffect(() => {
     localStorage.setItem("invoices", JSON.stringify(invoices));
   }, [invoices]);
 
@@ -286,8 +253,6 @@ const getRevenueByMonth = (invoices) => {
   return (
     <InvoilaContext.Provider
       value={{
-        users,
-        addNewUser,
         currentUser,
         setCurrentUser,
         invoices,
