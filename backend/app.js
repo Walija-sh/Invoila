@@ -7,6 +7,8 @@ import 'dotenv/config'
 import connectDb from './config/connectDb.js';
 import globalErrorHandler from './middlwares/globalErrorHandler.middleware.js';
 import AuthRouter from './routes/auth.routes.js';
+import ClientRouter from './routes/client.routes.js';
+import InvoiceRouter from './routes/invoice.routes.js';
 
 // app
 const app=express();
@@ -24,6 +26,8 @@ app.use(express.json());
 // =======================
 
 app.use('/api/auth',AuthRouter);
+app.use('/api/client',ClientRouter);
+app.use('/api/invoice',InvoiceRouter);
 // test route
 
 app.get('/',(req,res,next)=>{
