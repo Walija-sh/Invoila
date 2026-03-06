@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import API from '../utils/axios';
 import { InvoilaContext } from '../context/InvoilaContext';
 import { useContext } from 'react';
+import { FaRegEye,FaRegEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+   const [showPassword,setShowPassword]=useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +24,8 @@ const Login = () => {
 setLoading(true)
     try {
       const res = await API.post('/api/auth/login', { email, password });
+      
+      
       // Save token locally
       const token = res.data.data.token;
       localStorage.setItem('token', JSON.stringify(token));
@@ -29,7 +33,9 @@ setLoading(true)
       toast.success('Login successful');
       navigate('/'); // redirect to dashboard
     } catch (err) {
+      console.log(err);
       console.error(err);
+
       const message = err.response?.data?.message || 'Something went wrong';
       toast.error(message);
     }finally{
@@ -60,13 +66,22 @@ setLoading(true)
           </div>
           <div>
             <label className="block text-sm text-h mb-1">Password</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
-            />
+          <div className="relative w-full flex items-center border border-border rounded-md  focus-within:ring-2 focus-within:ring-accent overflow-hidden pr-4 ">
+           
+                      <input
+                        required
+                        type={showPassword?'text':'password'}
+                        placeholder="Enter your password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="w-full px-4 py-2  focus:outline-none"
+                      />
+                      {showPassword?(
+                        <FaRegEye onClick={()=>setShowPassword(!showPassword)} className='text-h cursor-pointer'  />
+                      ):(
+                        <FaRegEyeSlash onClick={()=>setShowPassword(!showPassword)} className='text-h cursor-pointer'  />
+                      )}
+                      </div>
           </div>
           <button
             type="submit"

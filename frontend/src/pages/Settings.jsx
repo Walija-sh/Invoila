@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { InvoilaContext } from '../context/InvoilaContext';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import API from '../utils/axios';
 import { FaUserCircle, FaCamera, FaLock } from 'react-icons/fa';
+import { FaRegEye,FaRegEyeSlash } from "react-icons/fa";
 
 const Settings = () => {
   const { currentUser, setCurrentUser } = useContext(InvoilaContext);
@@ -13,6 +14,8 @@ const Settings = () => {
   const [newPassword, setNewPassword] = useState('');
   const [updatingProfile, setUpdatingProfile] = useState(false);
   const [updatingPassword, setUpdatingPassword] = useState(false);
+  const [showNewPassword,setShowNewPassword]=useState(false)
+  const [showOldPassword,setShowOldPassword]=useState(false)
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
@@ -59,7 +62,7 @@ const Settings = () => {
 
   return (
     <div className="min-h-screen bg-gray-50/50 p-4 md:p-8">
-      <ToastContainer position="top-right" autoClose={3000} />
+      
       
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
@@ -114,24 +117,43 @@ const Settings = () => {
               <form onSubmit={handlePasswordUpdate} className="p-6 space-y-5">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">Current Password</label>
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    value={oldPassword}
-                    onChange={(e) => setOldPassword(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition"
-                  />
+                 
+                  <div className="relative w-full flex items-center border border-border rounded-md  focus-within:ring-2 focus-within:ring-accent overflow-hidden pr-4 ">
+                   
+                              <input
+                                
+                                type={showOldPassword?'text':'password'}
+                                placeholder="Enter your old password"
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
+                                className="w-full px-4 py-2  focus:outline-none"
+                              />
+                              {showOldPassword?(
+                                <FaRegEye onClick={()=>setShowOldPassword(!showOldPassword)} className='text-h cursor-pointer'  />
+                              ):(
+                                <FaRegEyeSlash onClick={()=>setShowOldPassword(!showOldPassword)} className='text-h cursor-pointer'  />
+                              )}
+                              </div>
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5">New Password</label>
-                  <input
-                    type="password"
-                    placeholder="Min. 8 characters"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none transition"
-                  />
+                  <div className="relative w-full flex items-center border border-border rounded-md  focus-within:ring-2 focus-within:ring-accent overflow-hidden pr-4 ">
+                   
+                              <input
+                                
+                                type={showNewPassword?'text':'password'}
+                                placeholder="Enter your new password. Min 8 characters."
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                className="w-full px-4 py-2  focus:outline-none"
+                              />
+                              {showNewPassword?(
+                                <FaRegEye onClick={()=>setShowNewPassword(!showNewPassword)} className='text-h cursor-pointer'  />
+                              ):(
+                                <FaRegEyeSlash onClick={()=>setShowNewPassword(!showNewPassword)} className='text-h cursor-pointer'  />
+                              )}
+                              </div>
                 </div>
 
                 <div className="pt-2">

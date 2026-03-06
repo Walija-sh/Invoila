@@ -31,7 +31,7 @@ const Sidebar = ({toggleSidebar,setToggleSidebar}) => {
        <div className="flex  mb-4">
                  <img src={logo} alt="Logo" className="w-full max-w-[120px]" />
         </div>
-        <p className="text-sm text-p">Dashboard</p>
+        {/* <p className="text-sm text-p">Dashboard</p> */}
       </div>
       <div className={` hidden sm:flex sm:mb-4 md:hidden`}>
                  <img src={favicon} alt="Logo" className="w-full max-w-[50px]" />

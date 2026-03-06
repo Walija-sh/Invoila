@@ -5,6 +5,7 @@ import API from '../utils/axios';
 import logo from '../assets/Logo.png'; 
 import { InvoilaContext } from '../context/InvoilaContext';
 import { useContext } from 'react';
+import { FaRegEye,FaRegEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword,setShowPassword]=useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,14 +87,22 @@ const Signup = () => {
 
           <div>
             <label className="block text-sm text-h mb-1">Password</label>
+            <div className="relative w-full flex items-center border border-border rounded-md  focus-within:ring-2 focus-within:ring-accent overflow-hidden pr-4 ">
+ 
             <input
               required
-              type="password"
+              type={showPassword?'text':'password'}
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+              className="w-full px-4 py-2  focus:outline-none"
             />
+            {showPassword?(
+              <FaRegEye onClick={()=>setShowPassword(!showPassword)} className='text-h cursor-pointer'  />
+            ):(
+              <FaRegEyeSlash onClick={()=>setShowPassword(!showPassword)} className='text-h cursor-pointer'  />
+            )}
+            </div>
           </div>
 
           <div>

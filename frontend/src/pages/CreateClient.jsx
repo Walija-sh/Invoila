@@ -1,11 +1,12 @@
-import React, { useContext, useState } from "react";
-import { InvoilaContext } from "../context/InvoilaContext";
-import { ToastContainer,toast } from 'react-toastify';
-import { Link } from "react-router-dom";
+import React, {  useState,useEffect } from "react";
+import { toast } from 'react-toastify';
+import { Link, useNavigate,useParams } from "react-router-dom";
+import API from "../utils/axios";
 
 const CreateClient = () => {
-  const { addNewClient,clients } = useContext(InvoilaContext);
-
+  const navigate=useNavigate()
+  const { id } = useParams();
+const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -13,47 +14,94 @@ const CreateClient = () => {
   const [address, setAddress] = useState('');
   const [notes, setNotes] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
 e.preventDefault();
-    const existingClient=clients.filter((obj)=>obj.email===email.trim() || obj.phone===phone.trim())
-    if(existingClient.length>0){
-      return toast('Client with this email or phone number already exists')
+ setLoading(true);
+    
+   const client = {
+  name: name.trim(),
+  email: email.trim(),
+  phone: phone.trim(),
+  company: company.trim(),
+  address: address.trim(),
+  notes: notes.trim(),
+};
+    try {
+  const token = JSON.parse(localStorage.getItem("token"));
+
+  let res;
+
+  if (id) {
+    // UPDATE CLIENT
+    res = await API.put(`/api/client/${id}`, client, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    toast.success("Client updated successfully");
+
+  } else {
+    // CREATE CLIENT
+    res = await API.post("/api/client/", client, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    toast.success("Client created successfully");
+  }
+
+  setTimeout(() => {
+    navigate("/clients");
+  }, 1000);
+
+} catch (error) {
+  toast.error(error.response?.data?.message || "Operation failed");
+}finally{
+      setLoading(false)
     }
     
-    const client = {
-      name,
-      email,
-      phone,
-      company: company || '',
-      address: address || '',
-      notes: notes || '',
-      invoicesSent: 0,
-      totalPaid: 0,
-      totalUnpaid: 0,
-      status: 'Active',
-      lastInvoiceDate: null,
-      createdAt: new Date().toISOString().slice(0, 10)
-    };
-    addNewClient(client);
-    toast('Client created successfully');
-    setName('')
-    setAddress('')
-    setCompany('')
-    setEmail('')
-    setNotes('')
-    setPhone('')
+    
 
   };
 
+
+  const getClientData = async () => {
+  if (!id) return;
+
+  try {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const res = await API.get(`/api/client/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    const data = res.data.data;
+
+    setName(data.name || "");
+    setEmail(data.email || "");
+    setPhone(data.phone || "");
+    setCompany(data.company || "");
+    setAddress(data.address || "");
+    setNotes(data.notes || "");
+
+  } catch (error) {
+    toast.error("Failed to load client");
+  }
+};
+
+useEffect(() => {
+  getClientData();
+}, [id]);
 
 
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 max-w-4xl mx-auto shadow-md rounded-lg">
-       <ToastContainer/>
-      <h2 className="text-2xl font-semibold text-h mb-1">Client Details</h2>
-      <p className="text-sm text-p mb-6">Fill in the details to create a new client</p>
+      <h2 className="text-2xl font-semibold text-h mb-1">
+  {id ? "Edit Client" : "Create Client"}
+</h2>
 
+<p className="text-sm text-p mb-6">
+  {id ? "Update client information" : "Fill in the details to create a new client"}
+</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Left Column */}
         <div>
@@ -136,8 +184,8 @@ e.preventDefault();
         <Link to={'/clients'} className="px-4 py-2 bg-border text-h rounded-md hover:bg-gray-300 cursor-pointer">
           Cancel
         </Link>
-        <button type="submit" className="px-4 py-2 bg-accent text-white rounded-md hover:opacity-90 cursor-pointer">
-          Create Client
+        <button disabled={loading} type="submit" className="px-4 py-2 bg-accent text-white rounded-md hover:opacity-90 cursor-pointer">
+        {loading ? "Saving..." : id ? "Update Client" : "Create Client"}
         </button>
       </div>
     </form>
