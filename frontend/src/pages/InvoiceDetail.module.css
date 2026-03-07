@@ -106,6 +106,15 @@
 .serviceGridHeader {
   display: none;
 }
+.paymentGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-weight: 500;
+  
+  
+}
 
 @media (min-width: 768px) {
   .serviceGridHeader {
@@ -114,6 +123,14 @@
     gap: 0.75rem;
     padding: 0 0.25rem;
     margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-p);
+  }
+  .paymentGrid {
+   display: grid; 
+   
+    gap: 0.75rem;
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--color-p);

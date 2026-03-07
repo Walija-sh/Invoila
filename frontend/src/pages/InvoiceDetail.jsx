@@ -196,6 +196,23 @@ const InvoiceDetail = () => {
             </div>
           ))}
         </div>
+        {invoice.paymentMethods && invoice.paymentMethods.length > 0 && (
+  <>
+   <h3 className={styles.servicesTitle}>Payment Methods</h3>
+
+    <div className={styles.paymentGrid}>
+      <span>Type</span>
+      <span>Details</span>
+    </div>
+
+    {invoice.paymentMethods.map((pm, index) => (
+      <div key={index} className="grid grid-cols-2 gap-3 mb-1">
+        <p className={styles.valueBox}>{pm.type}</p>
+        <p className={styles.valueBox}>{pm.details || '-'}</p>
+      </div>
+    ))}
+  </>
+)}
 
         <div className={styles.totalSection}>
           <h3 className={styles.totalTitle}>Total Amount</h3>

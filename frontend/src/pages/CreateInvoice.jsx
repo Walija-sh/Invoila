@@ -7,7 +7,7 @@ import { InvoilaContext } from '../context/InvoilaContext';
 import { useContext } from 'react';
 
 const CreateInvoice = () => {
-   const { currentUser ,currencySymbol} = useContext(InvoilaContext);
+   const { currencySymbol} = useContext(InvoilaContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -24,6 +24,10 @@ const CreateInvoice = () => {
   const [invServices, setInvServices] = useState([
     { name: "Web Design", quantity: 1, rate: 0, customName: "" }
   ]);
+
+  const [paymentMethods, setPaymentMethods] = useState([
+  { type: '', details: '' }
+]);
 
   const [selectedClient, setSelectedClient] = useState(null);
   const [dueDate, setDueDate] = useState('');
@@ -79,6 +83,11 @@ const CreateInvoice = () => {
           customName: ''
         }))
       );
+      setPaymentMethods(
+  invoice.paymentMethods?.length > 0
+    ? invoice.paymentMethods
+    : [{ type: '', details: '' }]
+);
 
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to fetch invoice');
@@ -119,6 +128,20 @@ const CreateInvoice = () => {
     0
   );
 
+  const handlePaymentChange = (index, field, value) => {
+  const updated = [...paymentMethods];
+  updated[index][field] = value;
+  setPaymentMethods(updated);
+};
+
+const addPaymentMethod = () => {
+  setPaymentMethods([...paymentMethods, { type: '', details: '' }]);
+};
+
+const removePaymentMethod = (index) => {
+  setPaymentMethods(prev => prev.filter((_, i) => i !== index));
+};
+
   const handleSubmit = async () => {
     if (!selectedClient || !dueDate || invServices.length === 0) {
       toast.error('Please fill all required fields.');
@@ -136,7 +159,8 @@ const CreateInvoice = () => {
       issuedDate: new Date().toISOString().slice(0, 10),
       dueDate,
       services: updatedServices,
-      status
+      status,
+       paymentMethods: paymentMethods.filter(pm => pm.type.trim() !== '') // only non-empty types
     };
 
     setLoading(true);
@@ -327,6 +351,41 @@ console.log(invoiceData);
           <FaPlus /> Add Service
         </button>
       </div>
+      {/* payment methods */}
+      <div className="mt-6">
+  <h3 className="text-lg font-medium text-heading mb-3">Payment Methods (Optional)</h3>
+
+  {paymentMethods.map((pm, index) => (
+    <div key={index} className="grid grid-cols-2 gap-3 items-center mb-2">
+      <input
+        type="text"
+        value={pm.type}
+        onChange={e => handlePaymentChange(index, 'type', e.target.value)}
+        placeholder="Payment Type (e.g., PayPal, Bank)"
+        className="p-2 border border-border rounded-md"
+      />
+      <input
+        type="text"
+        value={pm.details}
+        
+        onChange={e => handlePaymentChange(index, 'details', e.target.value)}
+        placeholder="Details"
+        className="p-2 border border-border rounded-md"
+      />
+      <FaTrash
+        className="text-red-500 cursor-pointer"
+        onClick={() => removePaymentMethod(index)}
+      />
+    </div>
+  ))}
+
+  <button
+    onClick={addPaymentMethod}
+    className="mt-2 px-3 py-2 bg-accent text-white rounded-md flex items-center gap-2"
+  >
+    <FaPlus /> Add Payment Method
+  </button>
+</div>
 
       {/* Total */}
       <div className="mt-6 text-right">
