@@ -100,7 +100,8 @@ res.status(200).json({
         id:user._id,
         username:user.username,
         email:user.email,
-        profilePhoto:user.profilePhoto?.url
+        profilePhoto:user.profilePhoto?.url,
+        currency:user.currency
     }
 })
 
@@ -154,4 +155,18 @@ const updateProfilePhoto = catchAsync(async (req, res, next) => {
   });
 });
 
-export {registerUser,loginUser,getMe,updatePassword,updateProfilePhoto}
+const updateCurrency = async (req, res) => {
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    { currency: req.body.currency },
+    { new: true }
+  );
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      currency: user.currency
+    }
+  });
+};
+export {registerUser,loginUser,getMe,updatePassword,updateProfilePhoto,updateCurrency}

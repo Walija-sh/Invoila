@@ -29,7 +29,7 @@ const UserSchema=new mongoose.Schema({
         type:String,
         default:'user'
     },
-        currency: { type: String, default: "$" },
+        currency: { type: String, default: "usd" },
     profilePhoto:{
     url:{
         type:String,
