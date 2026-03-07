@@ -9,6 +9,14 @@ const serviceSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const paymentMethodSchema = new mongoose.Schema(
+  {
+    type: { type: String, required: true },   // user-defined payment type
+    details: { type: String }                 // optional details, e.g., account info
+  },
+  { _id: false }
+);
+
 const invoiceSchema = new mongoose.Schema(
   {
     invoiceNumber: { type: String, required: true, unique: true },
@@ -19,6 +27,8 @@ const invoiceSchema = new mongoose.Schema(
     status: { type: String, enum: ["Paid", "Unpaid"], default: "Unpaid" }, // only store Paid/Unpaid
     services: [serviceSchema],
     subtotal: { type: Number, default: 0 },
+      // Flexible, optional payment methods
+    paymentMethods: [paymentMethodSchema],
 
   },
   {

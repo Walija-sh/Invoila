@@ -4,11 +4,15 @@ import AppError from "../utils/appError.js";
 import updateClientStats from "../utils/updateClientStats.js";
 
 export const createInvoice = catchAsync(async (req, res, next) => {
-  const { client, issuedDate, dueDate, services } = req.body;
+  const { client, issuedDate, dueDate, services,paymentMethods } = req.body;
 
   if (!client || !services || services.length === 0) {
     return next(new AppError("Client and services are required", 400));
   }
+
+  if (paymentMethods && !Array.isArray(paymentMethods)) {
+  return next(new AppError("paymentMethods must be an array", 400));
+}
 
   const invoiceCount = await Invoice.countDocuments({ user: req.user._id });
   const invoiceNumber = `INV-${new Date().getFullYear()}-${String(invoiceCount + 1).padStart(3, "0")}`;
@@ -19,7 +23,8 @@ export const createInvoice = catchAsync(async (req, res, next) => {
     client,
     issuedDate,
     dueDate,
-    services
+    services,
+    paymentMethods 
   });
 
   // update client derived stats
@@ -73,6 +78,7 @@ export const updateInvoice = catchAsync(async (req, res, next) => {
     { returnDocument: 'after', runValidators: true }
   ).populate("client", "name email");
 
+  
   if (!invoice) return next(new AppError("Invoice not found", 404));
 
   // update client derived stats
