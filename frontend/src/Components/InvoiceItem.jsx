@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { InvoilaContext } from "../context/InvoilaContext";
+import { useContext } from "react";
 
 const statusColor = {
   Paid: "bg-spaid/10 text-spaid",
@@ -9,6 +11,7 @@ const statusColor = {
 };
 
 const Invoice = ({ inv,onToggleStatus   }) => {
+   const { currencySymbol } = useContext(InvoilaContext);
   const [loading, setLoading] = useState(false);
   const status = inv.status;
 
@@ -32,7 +35,7 @@ const Invoice = ({ inv,onToggleStatus   }) => {
       </Link>
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 mt-2 sm:mt-0">
-        <p className="font-semibold text-lg">{inv.subtotal} $</p>
+        <p className="font-semibold text-lg"> {currencySymbol} {inv.subtotal}</p>
         <p className="text-sm text-p">Due: {inv.dueDate ? new Date(inv.dueDate).toLocaleDateString() : "N/A"}</p>
     <span
   onClick={handleToggle}

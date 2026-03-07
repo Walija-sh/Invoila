@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import MainMetrics from "../Components/MainMetrics";
 import RevenueAreaChart from "../Components/RevenueAreaChart";
 import API from "../utils/axios";
+import { useContext } from "react";
+import { InvoilaContext } from "../context/InvoilaContext";
 
 const Dashboard = () => {
+  const { currencySymbol } = useContext(InvoilaContext);
   const [stats, setStats] = useState(null);
   const [revenueStats, setRevenueStats] = useState([]);
 
@@ -36,7 +39,7 @@ const Dashboard = () => {
     fetchDashboardStats();
   }, []);
 
-  const format = (num) => "$" + (num || 0).toLocaleString();
+  const format = (num) => `${currencySymbol}` + (num || 0).toLocaleString();
 
   if (!stats) return null;
 

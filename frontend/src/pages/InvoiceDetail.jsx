@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { InvoilaContext } from "../context/InvoilaContext";
 
 const InvoiceDetail = () => {
-  const { currentUser } = useContext(InvoilaContext);
+  const { currentUser ,currencySymbol} = useContext(InvoilaContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -186,11 +186,11 @@ const InvoiceDetail = () => {
               <p className={styles.valueBox}>{service.name}</p>
               <p className={styles.valueBox}>{service.quantity}</p>
               <p className={styles.valueBox}>
-                {invoice.currency}
+                {currencySymbol}
                 {service.rate}
               </p>
               <p className={styles.valueBox}>
-                {invoice.currency}
+                {currencySymbol} 
                 {service.quantity * service.rate}
               </p>
             </div>
@@ -201,7 +201,7 @@ const InvoiceDetail = () => {
           <h3 className={styles.totalTitle}>Total Amount</h3>
 
           <p className={styles.totalAmount}>
-            {invoice.currency}
+            {currencySymbol}
             {subtotal.toFixed(2)}
           </p>
 

@@ -3,8 +3,11 @@ import { FaCalendarAlt, FaTrash, FaPlus } from 'react-icons/fa';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import API from '../utils/axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { InvoilaContext } from '../context/InvoilaContext';
+import { useContext } from 'react';
 
 const CreateInvoice = () => {
+   const { currentUser ,currencySymbol} = useContext(InvoilaContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -332,7 +335,7 @@ console.log(invoiceData);
         </h3>
 
         <p className="text-2xl font-semibold text-spaid">
-          ${subtotal.toFixed(2)}
+          {currencySymbol} {subtotal.toFixed(2)}
         </p>
       </div>
 

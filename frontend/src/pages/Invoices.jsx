@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { InvoilaContext } from '../context/InvoilaContext';
 import Invoice from '../Components/InvoiceItem';
 import { toast } from 'react-toastify';
 import API from '../utils/axios';
 
 const Invoices = () => {
-  // const { invoices } = useContext(InvoilaContext);
    const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
 

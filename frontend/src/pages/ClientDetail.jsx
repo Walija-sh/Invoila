@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link,useNavigate } from 'react-router-dom';
 import API from '../utils/axios';
 import { toast} from 'react-toastify';
+import { InvoilaContext } from '../context/InvoilaContext';
+import { useContext } from 'react';
 
 const ClientDetail = () => {
+    const { currencySymbol} = useContext(InvoilaContext);
   const [client,setClient]=useState(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
@@ -99,12 +102,12 @@ getClientsDetails()
 
           <div className="mb-4">
             <label className="block text-sm text-p mb-1">Total Paid</label>
-            <p className="text-h border-border rounded-md border p-2">${client.totalPaid}</p>
+            <p className="text-h border-border rounded-md border p-2">{currencySymbol} {client.totalPaid}</p>
           </div>
 
           <div className="mb-4">
             <label className="block text-sm text-p mb-1">Total Unpaid</label>
-            <p className="text-h border-border rounded-md border p-2">${client.totalUnpaid}</p>
+            <p className="text-h border-border rounded-md border p-2">{currencySymbol} {client.totalUnpaid}</p>
           </div>
         </div>
       </div>

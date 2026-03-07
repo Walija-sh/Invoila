@@ -4,9 +4,12 @@ import {  toast } from 'react-toastify';
 import API from '../utils/axios';
 import { FaUserCircle, FaCamera, FaLock } from 'react-icons/fa';
 import { FaRegEye,FaRegEyeSlash } from "react-icons/fa";
+import { useEffect } from 'react';
 
 const Settings = () => {
-  const { currentUser, setCurrentUser } = useContext(InvoilaContext);
+  const { currentUser, setCurrentUser,currency } = useContext(InvoilaContext);
+  const [selectedCurrency, setSelectedCurrency] = useState(currency);
+const [updatingCurrency, setUpdatingCurrency] = useState(false);
 
 
   const [profilePhoto, setProfilePhoto] = useState(null);
@@ -59,6 +62,36 @@ const Settings = () => {
       setUpdatingPassword(false);
     }
   };
+
+  const handleCurrencyUpdate = async (e) => {
+  e.preventDefault();
+
+  try {
+    setUpdatingCurrency(true);
+
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const res = await API.put(
+      "/api/auth/update-currency",
+      { currency: selectedCurrency },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    setCurrentUser({
+      ...currentUser,
+      currency: res.data.data.currency
+    });
+
+    toast.success("Currency updated successfully");
+
+  } catch (err) {
+    toast.error(err.response?.data?.message || "Failed to update currency");
+  } finally {
+    setUpdatingCurrency(false);
+  }
+};
+
+
 
   return (
     <div className="min-h-screen bg-gray-50/50 p-4 md:p-8">
@@ -167,6 +200,39 @@ const Settings = () => {
                 </div>
               </form>
             </div>
+            {/* Currency Section */}
+<div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+  <div className="px-6 py-4 border-b border-gray-50">
+    <h3 className="font-semibold text-gray-800">Invoice Currency</h3>
+  </div>
+
+  <form onSubmit={handleCurrencyUpdate} className="p-6 space-y-4">
+
+    <label className="block text-sm font-medium text-gray-700">
+      Default Currency
+    </label>
+
+    <select
+      value={selectedCurrency}
+onChange={(e) => setSelectedCurrency(e.target.value)}
+      className="w-full border border-gray-200 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+    >
+      <option value="usd">USD ($)</option>
+      <option value="eur">EUR (€)</option>
+      <option value="gbp">GBP (£)</option>
+      <option value="pkr">PKR (₨)</option>
+    </select>
+
+    <button
+      type="submit"
+      disabled={updatingCurrency}
+      className="px-6 py-2.5 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition shadow-md shadow-purple-200 disabled:opacity-50"
+    >
+      {updatingCurrency ? "Updating..." : "Update Currency"}
+    </button>
+
+  </form>
+</div>
           </div>
         </div>
       </div>
