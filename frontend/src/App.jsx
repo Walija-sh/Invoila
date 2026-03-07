@@ -59,6 +59,7 @@ const App = () => {
             <Route index element={<Dashboard />} />
             <Route path="invoices" element={<Invoices />} />
             <Route path="invoices/createInvoice" element={<CreateInvoice />} />
+            <Route path="invoices/edit/:id" element={<CreateInvoice />} />
             <Route path="invoices/:id" element={<InvoiceDetail />} />
             <Route path="clients" element={<Clients />} />
             <Route path="clients/createClient" element={<CreateClient />} />

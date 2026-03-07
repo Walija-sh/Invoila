@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { InvoilaContext } from '../context/InvoilaContext';
 import Invoice from '../Components/InvoiceItem';
+import { toast } from 'react-toastify';
+import API from '../utils/axios';
 
 const Invoices = () => {
-  const { invoices } = useContext(InvoilaContext);
-
- 
+  // const { invoices } = useContext(InvoilaContext);
+   const [invoices, setInvoices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [activeStatus, setActiveStatus] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,17 +21,70 @@ const Invoices = () => {
     setSearchQuery(e.target.value.toLowerCase());
   };
 
+   const getInvoicesData = async () => {
+    try {
+      const token = JSON.parse(localStorage.getItem("token"));
+
+      const res = await API.get("/api/invoice/", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setInvoices(res.data.data);
+    } catch (error) {
+      console.log(error);
+      
+      toast.error(error.response?.data?.message || "Failed to fetch invoices");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getInvoicesData();
+  }, []);
   // Filter invoices based on activeStatus and searchQuery
   const filteredInvoices = invoices.filter((inv) => {
     const matchesStatus =
-      activeStatus === 'All' || inv.invoice.status.toLowerCase() === activeStatus.toLowerCase();
+      activeStatus === 'All' || inv.status.toLowerCase() === activeStatus.toLowerCase();
 
     const matchesSearch =
-      inv.id.toLowerCase().includes(searchQuery) ||
+      inv._id.toLowerCase().includes(searchQuery) ||
       inv.client.name.toLowerCase().includes(searchQuery);
 
     return matchesStatus && matchesSearch;
   });
+
+const toggleInvoiceStatus = async (id) => {
+  try {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const res = await API.put(`/api/invoice/toggle-status/${id}`, {}, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    // update the parent state
+    setInvoices(prev =>
+      prev.map(inv =>
+        inv._id === id
+          ? { ...inv, status: res.data.data.status } // <- updated status from backend
+          : inv
+      )
+    );
+
+    toast.success("Invoice status updated");
+
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Failed to update status");
+  }
+};
+
+   if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 bg-white min-h-screen font-sans text-h">
@@ -70,7 +125,7 @@ const Invoices = () => {
 
       <div className="space-y-4">
         {filteredInvoices.length > 0 ? (
-          filteredInvoices.map((inv, idx) => <Invoice inv={inv} key={idx} />)
+          filteredInvoices.map((inv) => <Invoice inv={inv} key={inv._id}   onToggleStatus={() => toggleInvoiceStatus(inv._id)}   />)
         ) : (
           <p className="text-gray-500">No invoices found.</p>
         )}
