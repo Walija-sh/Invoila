@@ -29,15 +29,13 @@ const invoiceSchema = new mongoose.Schema(
 );
 
 // Automatically calculate subtotal on save
-invoiceSchema.pre("save", function (next) {
+invoiceSchema.pre("save", function () {
   this.subtotal = this.services.reduce(
     (sum, item) => sum + item.quantity * item.rate,
     0
   );
-
-  next();
 });
-invoiceSchema.pre("findOneAndUpdate", function (next) {
+invoiceSchema.pre("findOneAndUpdate", function () {
   const update = this.getUpdate();
 
   const services = update.services || update?.$set?.services;
@@ -55,7 +53,6 @@ invoiceSchema.pre("findOneAndUpdate", function (next) {
     }
   }
 
-  next();
 });
 // Virtual for derived status
 invoiceSchema.virtual("derivedStatus").get(function () {
