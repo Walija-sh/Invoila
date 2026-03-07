@@ -33,6 +33,21 @@ invoiceSchema.pre("save", function () {
   this.subtotal = this.services.reduce((sum, item) => sum + item.quantity * item.rate, 0);
 });
 
+invoiceSchema.pre("findOneAndUpdate", function (next) {
+  const update = this.getUpdate();
+
+  if (update.services) {
+    const subtotal = update.services.reduce(
+      (acc, service) => acc + service.quantity * service.rate,
+      0
+    );
+
+    update.subtotal = subtotal;
+  }
+
+  next();
+});
+
 // Virtual for derived status
 invoiceSchema.virtual("derivedStatus").get(function () {
   if (this.status === "Paid") return "Paid";
