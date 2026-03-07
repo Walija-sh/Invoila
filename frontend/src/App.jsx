@@ -75,3 +75,5 @@ const App = () => {
 };
 
 export default App;
+
+// in invoice add payment method, fixed currency, plus from details

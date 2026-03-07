@@ -2,11 +2,11 @@ import React from 'react'
 import { Pie, PieChart, Tooltip, ResponsiveContainer } from 'recharts';
 
 const MainMetrics = ({ stats }) => {
-  const { totalInvoices, paid, unpaid, overdue } = stats;
+  const { totalInvoices, overdueInvoices,paidInvoices,unpaidInvoices } = stats;
   const data = [
-    { name: 'Paid Invoices', qty: paid },
-    { name: 'Unpaid Invoices', qty: unpaid },
-    { name: 'Overdue Invoices', qty: overdue },
+    { name: 'Paid Invoices', qty: paidInvoices },
+    { name: 'Unpaid Invoices', qty: unpaidInvoices },
+    { name: 'Overdue Invoices', qty: overdueInvoices },
   ];
 
   return (

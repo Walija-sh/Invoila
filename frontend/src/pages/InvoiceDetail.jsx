@@ -5,13 +5,17 @@ import styles from "./InvoiceDetail.module.css";
 import html2pdf from "html2pdf.js";
 import API from "../utils/axios";
 import { toast } from "react-toastify";
+import { useContext } from "react";
+import { InvoilaContext } from "../context/InvoilaContext";
 
 const InvoiceDetail = () => {
+  const { currentUser } = useContext(InvoilaContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [invoice, setInvoice] = useState(null);
   const [loading, setLoading] = useState(true);
+
 
   const pdfRef = useRef();
 
@@ -24,7 +28,6 @@ const InvoiceDetail = () => {
       });
 
       setInvoice(res.data.data);
-      console.log(res.data.data);
       
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to fetch invoice");
@@ -99,6 +102,21 @@ const InvoiceDetail = () => {
         <p className={styles.subheading}>Here are the details of this invoice</p>
 
         <div className={styles.grid}>
+           {/* From (Current User) */}
+  <div>
+    <h3 className={styles.sectionTitle}>From</h3>
+
+    <div className="mb-4">
+      <label className={styles.label}>Name</label>
+      <p className={styles.valueBox}>{currentUser?.username}</p>
+    </div>
+
+    <div>
+      <label className={styles.label}>Email</label>
+      <p className={styles.valueBox}>{currentUser?.email}</p>
+    </div>
+  </div>
+  {/* client info */}
           <div>
             <h3 className={styles.sectionTitle}>Client Information</h3>
 
