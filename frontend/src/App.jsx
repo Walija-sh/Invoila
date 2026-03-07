@@ -11,7 +11,6 @@ import CreateInvoice from './pages/CreateInvoice';
 import Clients from './pages/Clients';
 import CreateClient from './pages/CreateClient';
 import ClientDetail from './pages/ClientDetail';
-import Payment from './pages/Payment';
 import Settings from './pages/Settings';
 import API from './utils/axios';
 
@@ -65,7 +64,7 @@ const App = () => {
             <Route path="clients/createClient" element={<CreateClient />} />
             <Route path="clients/:id" element={<ClientDetail />} />
             <Route path="clients/edit/:id" element={<CreateClient />} />
-            <Route path="payments" element={<Payment />} />
+           
             <Route path="settings" element={<Settings />} />
           </Route>
         )}

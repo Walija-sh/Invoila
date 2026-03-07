@@ -3,7 +3,6 @@ import {
   FaRegChartBar,
   FaFileInvoice,
   FaUserFriends,
-  FaCreditCard,
   FaCog,
 } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
@@ -16,7 +15,6 @@ const Sidebar = ({toggleSidebar,setToggleSidebar}) => {
     { name: "Dashboard", icon: <FaRegChartBar />, path: "/" },
     { name: "Invoices", icon: <FaFileInvoice />, path: "/invoices" },
     { name: "Clients", icon: <FaUserFriends />, path: "/clients" },
-    { name: "Payments", icon: <FaCreditCard />, path: "/payments" },
     { name: "Settings", icon: <FaCog />, path: "/settings" },
   ];
   

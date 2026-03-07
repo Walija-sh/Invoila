@@ -8,7 +8,6 @@ const pageDetails = {
   "/": { title: "Dashboard", subtitle: "Welcome back, manage your invoices and payments" },
   "/invoices": { title: "Invoices", subtitle: "View and manage all your invoices" },
   "/clients": { title: "Clients", subtitle: "Manage your client information and contacts" },
-  "/payments": { title: "Payments", subtitle: "Track and record all your payments" },
   "/settings": { title: "Settings", subtitle: "Customize your preferences and account settings" },
   "/invoices/createInvoice": { title: "Create Invoice", subtitle: "Create a new invoice for your client" },
   "/clients/createClient": { title: "Add Client", subtitle: "Add client details to start tracking their invoices." },
