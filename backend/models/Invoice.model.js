@@ -19,7 +19,7 @@ const invoiceSchema = new mongoose.Schema(
     status: { type: String, enum: ["Paid", "Unpaid"], default: "Unpaid" }, // only store Paid/Unpaid
     services: [serviceSchema],
     subtotal: { type: Number, default: 0 },
-    currency: { type: String, default: "$" }
+
   },
   {
     timestamps: true,
