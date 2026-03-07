@@ -125,72 +125,101 @@ export const getInvoiceStats = catchAsync(async (req, res, next) => {
 
   const userId = req.user._id;
 
-  const stats = await Invoice.aggregate([
-    {
-      $match: { user: userId }
-    },
-    {
-      $group: {
-        _id: null,
-
-        totalRevenue: {
-          $sum: {
-            $cond: [{ $eq: ["$status", "Paid"] }, "$subtotal", 0]
+const stats = await Invoice.aggregate([
+  {
+    $match: { user: userId }
+  },
+  {
+    $addFields: {
+      derivedStatus: {
+        $cond: [
+          { $eq: ["$status", "Paid"] },
+          "Paid",
+          {
+            $cond: [
+              { $lt: ["$dueDate", new Date()] },
+              "Overdue",
+              "Unpaid"
+            ]
           }
-        },
+        ]
+      }
+    }
+  },
+  {
+    $group: {
+      _id: null,
 
-        outstandingRevenue: {
-          $sum: {
-            $cond: [{ $ne: ["$status", "Paid"] }, "$subtotal", 0]
-          }
-        },
+      totalRevenue: {
+        $sum: {
+          $cond: [{ $eq: ["$derivedStatus", "Paid"] }, "$subtotal", 0]
+        }
+      },
 
-        totalInvoices: { $sum: 1 },
+      outstandingRevenue: {
+        $sum: {
+          $cond: [{ $ne: ["$derivedStatus", "Paid"] }, "$subtotal", 0]
+        }
+      },
 
-        paidInvoices: {
-          $sum: {
-            $cond: [{ $eq: ["$status", "Paid"] }, 1, 0]
-          }
-        },
+      totalInvoices: { $sum: 1 },
 
-        unpaidInvoices: {
-          $sum: {
-            $cond: [{ $eq: ["$status", "Unpaid"] }, 1, 0]
-          }
-        },
+      paidInvoices: {
+        $sum: {
+          $cond: [{ $eq: ["$derivedStatus", "Paid"] }, 1, 0]
+        }
+      },
 
-        overdueInvoices: {
-          $sum: {
-            $cond: [{ $eq: ["$status", "Overdue"] }, 1, 0]
-          }
+      unpaidInvoices: {
+        $sum: {
+          $cond: [{ $eq: ["$derivedStatus", "Unpaid"] }, 1, 0]
+        }
+      },
+
+      overdueInvoices: {
+        $sum: {
+          $cond: [{ $eq: ["$derivedStatus", "Overdue"] }, 1, 0]
         }
       }
     }
-  ]);
+  }
+]);
 
 
 
-  const revenueOverTime = await Invoice.aggregate([
-    {
-      $match: {
-        user: userId,
-        status: "Paid"
-      }
-    },
-    {
-      $group: {
-        _id: {
-          year: { $year: "$issuedDate" },
-          month: { $month: "$issuedDate" }
-        },
-        revenue: { $sum: "$subtotal" }
-      }
-    },
-    {
-      $sort: { "_id.year": 1, "_id.month": 1 }
+ const revenueOverTime = await Invoice.aggregate([
+  {
+    $match: {
+      user: userId,
+      status: "Paid"
     }
-  ]);
-
+  },
+  {
+    $group: {
+      _id: {
+        year: { $year: "$issuedDate" },
+        month: { $month: "$issuedDate" }
+      },
+      revenue: { $sum: "$subtotal" }
+    }
+  },
+  {
+    $sort: { "_id.year": 1, "_id.month": 1 }
+  },
+  {
+    $project: {
+      _id: 0,
+      label: {
+        $concat: [
+          { $toString: "$_id.year" },
+          "-",
+          { $toString: "$_id.month" }
+        ]
+      },
+      revenue: 1
+    }
+  }
+]);
 
 
   res.status(200).json({
