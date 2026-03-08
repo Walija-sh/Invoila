@@ -16,7 +16,7 @@ const pageDetails = {
 };
 
 const NavBar = ({ setToggleSidebar }) => {
-  const { currentUser, setCurrentUser } = useContext(InvoilaContext);
+  const { currentUser, setCurrentUser,setToken} = useContext(InvoilaContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -31,6 +31,7 @@ const NavBar = ({ setToggleSidebar }) => {
   // Logout handler
   const handleLogout = () => {
     localStorage.removeItem("token");
+    setToken(null)
     setCurrentUser(null);
     navigate("/login");
   };

@@ -37,7 +37,7 @@ const Signup = () => {
 
       // Save token in localStorage
       const token = res.data.data.token;
-      localStorage.setItem('token', JSON.stringify(token));
+      localStorage.setItem('token', token);
       setCurrentUser(res.data.data);
        setToken(token);
       toast.success('Account created successfully');

@@ -15,18 +15,33 @@ import Settings from './pages/Settings';
 import API from './utils/axios';
 
 const App = () => {
-  const { currentUser, setCurrentUser } = useContext(InvoilaContext);
+  const { currentUser, setCurrentUser,token,setToken } = useContext(InvoilaContext);
   const [loading, setLoading] = useState(true);
-
+    // Fetch current user only if token exists
   useEffect(() => {
-  API.get('/api/auth/me')
-    .then(res => setCurrentUser(res.data.data))
-    .catch(() => {
-      localStorage.removeItem('token');
-      setCurrentUser(null);
-    })
-    .finally(() => setLoading(false));
-}, [setCurrentUser]);
+    const fetchUser = async () => {
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await API.get("/api/auth/me", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setCurrentUser(res.data.data);
+      } catch (err) {
+        // Token invalid → remove it
+        localStorage.removeItem("token");
+        setToken(null);
+        setCurrentUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [token, setCurrentUser, setToken]);
 
   if (loading) {
     return (
@@ -58,6 +73,7 @@ const App = () => {
             <Route path="clients/edit/:id" element={<CreateClient />} />
            
             <Route path="settings" element={<Settings />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         )}
       </Routes>

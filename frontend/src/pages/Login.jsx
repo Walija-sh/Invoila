@@ -28,7 +28,7 @@ setLoading(true)
       
       // Save token locally
       const token = res.data.data.token;
-      localStorage.setItem('token', JSON.stringify(token));
+      localStorage.setItem('token', token);
       setCurrentUser(res.data.data);
        setToken(token);
       toast.success('Login successful');

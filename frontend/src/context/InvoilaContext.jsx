@@ -28,11 +28,14 @@ const [token, setToken] = useState(null);
     }
   }, [currentUser]);
 
+   useEffect(() => {
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) setToken(savedToken);
+  }, []);
+
+
   const currencySymbol = currencySymbols[currency] || "$";
-useEffect(() => {
-  const savedToken = localStorage.getItem("token");
-  if (savedToken) setToken(savedToken);
-}, []);
+
 
   return (
     <InvoilaContext.Provider
