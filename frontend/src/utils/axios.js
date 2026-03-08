@@ -1,6 +1,10 @@
 // to create single azios instance
 
 import axios from "axios";
+import { useContext } from "react";
+import { InvoilaContext } from "../context/InvoilaContext";
+
+const {setCurrentUser}=useContext(InvoilaContext)
 
 const API = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL, // Vite env variable
