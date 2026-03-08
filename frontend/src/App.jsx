@@ -19,19 +19,13 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  const fetchUser = async () => {
-    try {
-      const res = await API.get('/api/auth/me');
-      setCurrentUser(res.data.data);
-    } catch (err) {
+  API.get('/api/auth/me')
+    .then(res => setCurrentUser(res.data.data))
+    .catch(() => {
       localStorage.removeItem('token');
       setCurrentUser(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchUser();
+    })
+    .finally(() => setLoading(false));
 }, [setCurrentUser]);
 
   if (loading) {
