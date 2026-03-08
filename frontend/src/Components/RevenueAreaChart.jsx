@@ -3,7 +3,7 @@ import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'rec
 const RevenueAreaChart = ({ data }) => {
     
   return (
-    <div className="bg-cardbg p-4 rounded-lg shadow-md">
+    <div className="bg-white p-4 rounded-lg shadow-md">
       <h2 className="text-lg font-semibold mb-3">Revenue Over Time</h2>
       <ResponsiveContainer width="100%" height={300}>
         <AreaChart data={data}>

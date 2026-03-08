@@ -41,8 +41,8 @@ const Dashboard = () => {
   if (!stats) return null;
 
   return (
-    <div className="bg-white text-text p-6 max-w-5xl mx-auto">
-      <div className="bg-card-bg rounded-xl shadow-md p-6">
+    <div className="bg-card-bg text-text p-6 max-w-5xl mx-auto">
+      <div className="bg-white rounded-xl shadow-md p-6 mb-4 lg:mb-12">
         <h2 className="text-2xl font-bold mb-4 text-h">Main Stats</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 items-center justify-center">
