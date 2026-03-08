@@ -4,10 +4,9 @@ import {  toast } from 'react-toastify';
 import API from '../utils/axios';
 import { FaUserCircle, FaCamera, FaLock } from 'react-icons/fa';
 import { FaRegEye,FaRegEyeSlash } from "react-icons/fa";
-import { useEffect } from 'react';
 
 const Settings = () => {
-  const { currentUser, setCurrentUser,currency } = useContext(InvoilaContext);
+  const { currentUser, setCurrentUser,currency,token } = useContext(InvoilaContext);
   const [selectedCurrency, setSelectedCurrency] = useState(currency);
 const [updatingCurrency, setUpdatingCurrency] = useState(false);
 
@@ -50,7 +49,8 @@ const [updatingCurrency, setUpdatingCurrency] = useState(false);
     try {
       setUpdatingPassword(true);
       
-      await API.put('/api/auth/update-password', { oldPassword, newPassword });
+      await API.put('/api/auth/update-password', { oldPassword, newPassword },
+      { headers: { Authorization: `Bearer ${token}` }});
       toast.success('Password updated successfully');
       setOldPassword('');
       setNewPassword('');
@@ -66,9 +66,11 @@ const [updatingCurrency, setUpdatingCurrency] = useState(false);
 
   try {
     setUpdatingCurrency(true);
+
     const res = await API.put(
       "/api/auth/update-currency",
-      { currency: selectedCurrency }
+      { currency: selectedCurrency },
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
     setCurrentUser({

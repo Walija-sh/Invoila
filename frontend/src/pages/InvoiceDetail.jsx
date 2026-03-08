@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { InvoilaContext } from "../context/InvoilaContext";
 
 const InvoiceDetail = () => {
-  const { currentUser ,currencySymbol} = useContext(InvoilaContext);
+  const { currentUser ,currencySymbol,token} = useContext(InvoilaContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -21,7 +21,8 @@ const InvoiceDetail = () => {
 
   const getInvoiceDetail = async () => {
     try {
-      const res = await API.get(`/api/invoice/${id}`);
+      const res = await API.get(`/api/invoice/${id}`,
+      { headers: { Authorization: `Bearer ${token}` }});
 
       setInvoice(res.data.data);
       
@@ -44,7 +45,8 @@ const InvoiceDetail = () => {
     if (!confirmDelete) return;
 
     try {
-      await API.delete(`/api/invoice/${id}`);
+      await API.delete(`/api/invoice/${id}`,
+      { headers: { Authorization: `Bearer ${token}` }});
 
       toast.success("Invoice deleted successfully");
 

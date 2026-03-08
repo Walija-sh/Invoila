@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import Invoice from '../Components/InvoiceItem';
 import { toast } from 'react-toastify';
 import API from '../utils/axios';
+import { useContext } from 'react';
+import { InvoilaContext } from '../context/InvoilaContext';
 
 const Invoices = () => {
+  const {token}=useContext(InvoilaContext)
    const [invoices, setInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,7 +24,8 @@ const Invoices = () => {
 
    const getInvoicesData = async () => {
     try {
-      const res = await API.get("/api/invoice/");
+      const res = await API.get("/api/invoice/",
+      { headers: { Authorization: `Bearer ${token}` }});
 
       setInvoices(res.data.data);
     } catch (error) {
@@ -51,7 +55,8 @@ const Invoices = () => {
 const toggleInvoiceStatus = async (id) => {
   try {
 
-    const res = await API.put(`/api/invoice/toggle-status/${id}`, {});
+    const res = await API.put(`/api/invoice/toggle-status/${id}`, {},
+      { headers: { Authorization: `Bearer ${token}` }});
 
     // update the parent state
     setInvoices(prev =>

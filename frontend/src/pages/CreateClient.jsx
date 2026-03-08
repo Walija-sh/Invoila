@@ -2,9 +2,12 @@ import React, {  useState,useEffect } from "react";
 import { toast } from 'react-toastify';
 import { Link, useNavigate,useParams } from "react-router-dom";
 import API from "../utils/axios";
+import { useContext } from "react";
+import { InvoilaContext } from "../context/InvoilaContext";
 
 const CreateClient = () => {
   const navigate=useNavigate()
+  const {token}=useContext(InvoilaContext)
   const { id } = useParams();
 const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
@@ -31,13 +34,15 @@ e.preventDefault();
 
   if (id) {
     // UPDATE CLIENT
-    res = await API.put(`/api/client/${id}`, client);
+    res = await API.put(`/api/client/${id}`, client,
+      { headers: { Authorization: `Bearer ${token}` }});
 
     toast.success("Client updated successfully");
 
   } else {
     // CREATE CLIENT
-    res = await API.post("/api/client/", client);
+    res = await API.post("/api/client/", client,
+      { headers: { Authorization: `Bearer ${token}` }});
 
     toast.success("Client created successfully");
   }
@@ -61,8 +66,6 @@ e.preventDefault();
   if (!id) return;
 
   try {
-    const token = JSON.parse(localStorage.getItem("token"));
-
     const res = await API.get(`/api/client/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });

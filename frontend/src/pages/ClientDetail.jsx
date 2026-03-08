@@ -6,14 +6,15 @@ import { InvoilaContext } from '../context/InvoilaContext';
 import { useContext } from 'react';
 
 const ClientDetail = () => {
-    const { currencySymbol} = useContext(InvoilaContext);
+    const { currencySymbol,token} = useContext(InvoilaContext);
   const [client,setClient]=useState(null);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
    const getClientsDetails=async()=>{
     try {
-      const res= await API.get(`/api/client/${id}`);
+      const res= await API.get(`/api/client/${id}`,
+      { headers: { Authorization: `Bearer ${token}` }});
       setClient(res.data.data)
       
     } catch (error) {
@@ -34,7 +35,8 @@ getClientsDetails()
   if (!confirmDelete) return;
 
   try {
-    await API.delete(`/api/client/${id}`);
+    await API.delete(`/api/client/${id}`,
+      { headers: { Authorization: `Bearer ${token}` }});
 
     toast.success("Client deleted successfully");
 

@@ -9,7 +9,7 @@ import { FaRegEye,FaRegEyeSlash } from "react-icons/fa";
 
 const Signup = () => {
   const navigate = useNavigate();
-    const { setCurrentUser } = useContext(InvoilaContext);
+    const { setCurrentUser,setToken } = useContext(InvoilaContext);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,6 +39,7 @@ const Signup = () => {
       const token = res.data.data.token;
       localStorage.setItem('token', JSON.stringify(token));
       setCurrentUser(res.data.data);
+       setToken(token);
       toast.success('Account created successfully');
       navigate('/'); // redirect to dashboard or home
     } catch (err) {

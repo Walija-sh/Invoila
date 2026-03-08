@@ -35,7 +35,8 @@ app.use(helmet());
 
 app.use(cors({
   origin: process.env.FRONTEND,
-  credentials: true
+  credentials: true,
+   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // =======================

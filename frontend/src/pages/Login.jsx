@@ -9,7 +9,7 @@ import { FaRegEye,FaRegEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setCurrentUser } = useContext(InvoilaContext);
+  const { setCurrentUser,setToken } = useContext(InvoilaContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -30,11 +30,11 @@ setLoading(true)
       const token = res.data.data.token;
       localStorage.setItem('token', JSON.stringify(token));
       setCurrentUser(res.data.data);
+       setToken(token);
       toast.success('Login successful');
       navigate('/'); // redirect to dashboard
     } catch (err) {
-      console.log(err);
-      console.error(err);
+      // console.error(err);
 
       const message = err.response?.data?.message || 'Something went wrong';
       toast.error(message);

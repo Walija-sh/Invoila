@@ -6,14 +6,15 @@ import { useContext } from "react";
 import { InvoilaContext } from "../context/InvoilaContext";
 
 const Dashboard = () => {
-  const { currencySymbol } = useContext(InvoilaContext);
+  const { currencySymbol,token } = useContext(InvoilaContext);
   const [stats, setStats] = useState(null);
   const [revenueStats, setRevenueStats] = useState([]);
 
   useEffect(() => {
     const fetchDashboardStats = async () => {
       try {
-        const res = await API.get("/api/invoice/stats/dashboard");
+        const res = await API.get("/api/invoice/stats/dashboard",
+      { headers: { Authorization: `Bearer ${token}` }});
 
         const overview = res.data.data.overview;
 

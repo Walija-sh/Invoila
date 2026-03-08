@@ -7,7 +7,7 @@ import { InvoilaContext } from '../context/InvoilaContext';
 import { useContext } from 'react';
 
 const CreateInvoice = () => {
-   const { currencySymbol} = useContext(InvoilaContext);
+   const { currencySymbol,token} = useContext(InvoilaContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -39,8 +39,6 @@ const CreateInvoice = () => {
   // Fetch Clients
   const getClients = async () => {
     try {
-      const token = JSON.parse(localStorage.getItem('token'));
-
       const res = await API.get('/api/client', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -169,12 +167,14 @@ const removePaymentMethod = (index) => {
 
       if (id) {
         
-        await API.put(`/api/invoice/${id}`, invoiceData);
+        await API.put(`/api/invoice/${id}`, invoiceData,
+      { headers: { Authorization: `Bearer ${token}` }});
        
         toast.success('Invoice updated successfully');
 
       } else {
-        await API.post('/api/invoice', invoiceData);
+        await API.post('/api/invoice', invoiceData,
+      { headers: { Authorization: `Bearer ${token}` }});
         toast.success('Invoice created successfully');
       }
 

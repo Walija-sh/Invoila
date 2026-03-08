@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { FaUserCircle } from "react-icons/fa";
 import API from '../utils/axios';
 import {toast } from 'react-toastify';
+import { useContext } from 'react';
+import { InvoilaContext } from '../context/InvoilaContext';
 
 const Clients = () => {
 
@@ -11,6 +13,8 @@ const Clients = () => {
   Outstanding: "bg-sunpaid/10 text-sunpaid",
   Overdue: "bg-sdue/10 text-sdue",
 };
+
+const {token}=useContext(InvoilaContext)
 
   const [clients,setClients]=useState([]);
   const [loading, setLoading] = useState(true);
@@ -40,7 +44,8 @@ const Clients = () => {
 
   const getClientsData=async()=>{
     try {
-      const res= await API.get('/api/client/');
+      const res= await API.get('/api/client/',
+      { headers: { Authorization: `Bearer ${token}` }});
       
       setClients(res.data.data)
       
