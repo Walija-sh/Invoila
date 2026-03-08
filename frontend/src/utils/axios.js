@@ -1,11 +1,6 @@
 // to create single azios instance
 
 import axios from "axios";
-import { useContext } from "react";
-import { InvoilaContext } from "../context/InvoilaContext";
-
-const {setCurrentUser}=useContext(InvoilaContext)
-
 const API = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL, // Vite env variable
 //   withCredentials: true, // if you use cookies for auth
@@ -31,9 +26,8 @@ API.interceptors.response.use(
   res => res,
   err => {
     if (err.response?.status === 401) {
-      localStorage.removeItem('token');
-      setCurrentUser(null);
-      window.location.href = '/login';
+      localStorage.removeItem("token");
+      window.location.href = "/login";
     }
     return Promise.reject(err);
   }
