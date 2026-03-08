@@ -21,11 +21,7 @@ const Invoices = () => {
 
    const getInvoicesData = async () => {
     try {
-      const token = JSON.parse(localStorage.getItem("token"));
-
-      const res = await API.get("/api/invoice/", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await API.get("/api/invoice/");
 
       setInvoices(res.data.data);
     } catch (error) {
@@ -54,11 +50,8 @@ const Invoices = () => {
 
 const toggleInvoiceStatus = async (id) => {
   try {
-    const token = JSON.parse(localStorage.getItem("token"));
 
-    const res = await API.put(`/api/invoice/toggle-status/${id}`, {}, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await API.put(`/api/invoice/toggle-status/${id}`, {});
 
     // update the parent state
     setInvoices(prev =>

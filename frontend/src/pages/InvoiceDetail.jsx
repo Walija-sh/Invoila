@@ -21,11 +21,7 @@ const InvoiceDetail = () => {
 
   const getInvoiceDetail = async () => {
     try {
-      const token = JSON.parse(localStorage.getItem("token"));
-
-      const res = await API.get(`/api/invoice/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await API.get(`/api/invoice/${id}`);
 
       setInvoice(res.data.data);
       
@@ -48,11 +44,7 @@ const InvoiceDetail = () => {
     if (!confirmDelete) return;
 
     try {
-      const token = JSON.parse(localStorage.getItem("token"));
-
-      await API.delete(`/api/invoice/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.delete(`/api/invoice/${id}`);
 
       toast.success("Invoice deleted successfully");
 

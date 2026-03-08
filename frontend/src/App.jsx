@@ -19,22 +19,20 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem('token'));
-    if (!token) {
+  const fetchUser = async () => {
+    try {
+      const res = await API.get('/api/auth/me');
+      setCurrentUser(res.data.data);
+    } catch (err) {
+      localStorage.removeItem('token');
+      setCurrentUser(null);
+    } finally {
       setLoading(false);
-      return;
     }
+  };
 
-    // Validate token with backend
-    API.get('/api/auth/me', { headers: { Authorization: `Bearer ${token}` } })
-      .then(res => {
-        setCurrentUser(res.data.data); // set backend user in context
-      })
-      .catch(() => {
-        localStorage.removeItem('token'); // remove invalid token
-      })
-      .finally(() => setLoading(false));
-  }, [setCurrentUser]);
+  fetchUser();
+}, [setCurrentUser]);
 
   if (loading) {
     return (

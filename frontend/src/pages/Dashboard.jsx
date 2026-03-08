@@ -13,11 +13,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboardStats = async () => {
       try {
-        const token = JSON.parse(localStorage.getItem("token"));
-
-        const res = await API.get("/api/invoice/stats/dashboard", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const res = await API.get("/api/invoice/stats/dashboard");
 
         const overview = res.data.data.overview;
 

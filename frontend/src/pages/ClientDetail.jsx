@@ -13,8 +13,7 @@ const ClientDetail = () => {
   const navigate = useNavigate();
    const getClientsDetails=async()=>{
     try {
-      const token = JSON.parse(localStorage.getItem('token'));
-      const res= await API.get(`/api/client/${id}`,{headers:{Authorization:`Bearer ${token}`}});
+      const res= await API.get(`/api/client/${id}`);
       setClient(res.data.data)
       
     } catch (error) {
@@ -35,11 +34,7 @@ getClientsDetails()
   if (!confirmDelete) return;
 
   try {
-    const token = JSON.parse(localStorage.getItem("token"));
-
-    await API.delete(`/api/client/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    await API.delete(`/api/client/${id}`);
 
     toast.success("Client deleted successfully");
 

@@ -166,26 +166,15 @@ const removePaymentMethod = (index) => {
     setLoading(true);
 
     try {
-      const token = JSON.parse(localStorage.getItem('token'));
-      
-      
 
       if (id) {
-console.log(invoiceData);
-
         
-        await API.put(`/api/invoice/${id}`, invoiceData, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        await API.put(`/api/invoice/${id}`, invoiceData);
        
         toast.success('Invoice updated successfully');
 
       } else {
-        await API.post('/api/invoice', invoiceData, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        
-
+        await API.post('/api/invoice', invoiceData);
         toast.success('Invoice created successfully');
       }
 

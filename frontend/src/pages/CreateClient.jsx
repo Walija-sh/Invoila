@@ -27,23 +27,17 @@ e.preventDefault();
   notes: notes.trim(),
 };
     try {
-  const token = JSON.parse(localStorage.getItem("token"));
-
   let res;
 
   if (id) {
     // UPDATE CLIENT
-    res = await API.put(`/api/client/${id}`, client, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    res = await API.put(`/api/client/${id}`, client);
 
     toast.success("Client updated successfully");
 
   } else {
     // CREATE CLIENT
-    res = await API.post("/api/client/", client, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    res = await API.post("/api/client/", client);
 
     toast.success("Client created successfully");
   }

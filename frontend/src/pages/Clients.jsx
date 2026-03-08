@@ -40,8 +40,7 @@ const Clients = () => {
 
   const getClientsData=async()=>{
     try {
-      const token = JSON.parse(localStorage.getItem('token'));
-      const res= await API.get('/api/client/',{headers:{Authorization:`Bearer ${token}`}});
+      const res= await API.get('/api/client/');
       
       setClients(res.data.data)
       

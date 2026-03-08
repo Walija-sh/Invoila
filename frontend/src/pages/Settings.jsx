@@ -49,10 +49,8 @@ const [updatingCurrency, setUpdatingCurrency] = useState(false);
     if (!oldPassword || !newPassword) return toast.error('Please fill all fields');
     try {
       setUpdatingPassword(true);
-      const token = JSON.parse(localStorage.getItem('token'));
-      await API.put('/api/auth/update-password', { oldPassword, newPassword }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      
+      await API.put('/api/auth/update-password', { oldPassword, newPassword });
       toast.success('Password updated successfully');
       setOldPassword('');
       setNewPassword('');
@@ -68,13 +66,9 @@ const [updatingCurrency, setUpdatingCurrency] = useState(false);
 
   try {
     setUpdatingCurrency(true);
-
-    const token = JSON.parse(localStorage.getItem("token"));
-
     const res = await API.put(
       "/api/auth/update-currency",
-      { currency: selectedCurrency },
-      { headers: { Authorization: `Bearer ${token}` } }
+      { currency: selectedCurrency }
     );
 
     setCurrentUser({
