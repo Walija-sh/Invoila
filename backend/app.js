@@ -54,7 +54,15 @@ const limiter = rateLimit({
 });
 
 app.use("/api", limiter);
-app.use(mongoSanitize());
+ mongoSanitize({
+    replaceWith: '_',  // optional
+    onSanitize: ({ req, key }) => {
+      console.log(`Sanitized: ${key}`);
+    },
+    // Only sanitize body and params
+    allowedKeys: [], // default: all
+    reqTypes: ['body', 'params'] // ignore query
+  })
 app.use(hpp());
 
 // =======================
