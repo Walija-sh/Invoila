@@ -19,7 +19,7 @@ const paymentMethodSchema = new mongoose.Schema(
 
 const invoiceSchema = new mongoose.Schema(
   {
-    invoiceNumber: { type: String, required: true, unique: true },
+    invoiceNumber: { type: String, required: true},
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     client: { type: mongoose.Schema.Types.ObjectId, ref: "Client", required: true },
     issuedDate: { type: Date, required: true },
@@ -36,6 +36,11 @@ const invoiceSchema = new mongoose.Schema(
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
   }
+);
+
+invoiceSchema.index(
+  { user: 1, invoiceNumber: 1 },
+  { unique: true }
 );
 
 // Automatically calculate subtotal on save
