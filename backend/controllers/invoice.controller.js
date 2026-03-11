@@ -14,8 +14,26 @@ export const createInvoice = catchAsync(async (req, res, next) => {
   return next(new AppError("paymentMethods must be an array", 400));
 }
 
-  const invoiceCount = await Invoice.countDocuments({ user: req.user._id });
-  const invoiceNumber = `INV-${new Date().getFullYear()}-${String(invoiceCount + 1).padStart(3, "0")}`;
+  const year = new Date().getFullYear();
+
+const lastInvoice = await Invoice.findOne(
+  { 
+    user: req.user._id,
+    invoiceNumber: new RegExp(`INV-${year}`)
+  },
+  {},
+  { sort: { createdAt: -1 } }
+);
+
+let nextNumber = 1;
+
+if (lastInvoice) {
+  const lastSeq = parseInt(lastInvoice.invoiceNumber.split("-")[2]);
+  nextNumber = lastSeq + 1;
+}
+
+const invoiceNumber =
+`INV-${year}-${String(nextNumber).padStart(3,"0")}`;
 
   const invoice = await Invoice.create({
     invoiceNumber,
